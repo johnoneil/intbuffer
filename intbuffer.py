@@ -76,7 +76,7 @@ def generate_output(input_file, output_filename):
 
 def is_top_level_class(classname, classes):
   for c in classes:
-    if c[0] == classname:
+    if classname in c[0]:
       return True
   return False
 
@@ -110,6 +110,7 @@ def code_from_line(line, classes):
   if len(words)==1:
     word=words[0]
     if is_top_level_class(word, classes):
+      print 'Top level class ' + word
       return Class(word)
     else:
       return Integer(word)

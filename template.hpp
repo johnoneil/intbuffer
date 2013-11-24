@@ -135,7 +135,11 @@ public:
 private:
 % for child in typename._children:
 	% if child.__class__.__name__ == 'Integer':
+    %if child._default<0:
   Int32 m_${child._name};
+    %else:
+  const Int32 m_${child._name};
+    %endif
   % elif child.__class__.__name__ == 'Repeated':
      % if child._element.__class__.__name__ == 'Integer':
   std::vector<Int32> m_${child._element._name}s;
