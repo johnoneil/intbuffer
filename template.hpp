@@ -6,8 +6,7 @@
 <%
 import datetime
 mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
-%>
-/// ${mydate}
+%>///@date ${mydate}
 ///
 ///----------------------------------------------------------------------------
 
@@ -23,14 +22,35 @@ namespace IntBuffer
 class ${typename._name}
 {
 public:
+<% contains_const = False
+for child in typename._children:
+  if child.__class__.__name__ == 'Integer' and child._default>=0:
+    contains_const = True
+first_const = True %>
+%if contains_const:
+  ${typename._name}()
 % for child in typename._children:
+	% if child.__class__.__name__ == 'Integer' and child._default>=0:
+    %if first_const:
+<%first_const=False%>
+  :m_${child._name}(${child._default})
+    %else:
+  ,m_${child._name}(${child._default})
+    %endif
+  % endif
+% endfor
+  {};
+%endif
 
+% for child in typename._children:
 	% if child.__class__.__name__ == 'Integer':
 	///=====================================
 	///${child._name}
 	///=====================================
 	Int32 Get${child._name}(void)const{return m_${child._name};};
+    % if child._default<0:
 	void Set${child._name}(const Int32 value)const{m_${child._name}=value;};
+    % endif
   % elif child.__class__.__name__ == 'Repeated':
 	///=====================================
 	///${child._element._name}s

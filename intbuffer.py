@@ -110,7 +110,6 @@ def code_from_line(line, classes):
   if len(words)==1:
     word=words[0]
     if is_top_level_class(word, classes):
-      print 'Top level class ' + word
       return Class(word)
     else:
       return Integer(word)
