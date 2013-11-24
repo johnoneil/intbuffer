@@ -15,8 +15,19 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 #ifndef __${ifdef_filename}_HPP__
 #define __${ifdef_filename}_HPP__
 
+
+#include <vector>
+
 namespace IntBuffer
 {
+///
+///@brief forward declarations
+///
+% for typename in typenames:
+class ${typename._name};
+% endfor
+
+
 % for typename in typenames:
 
 class ${typename._name}
