@@ -16,11 +16,10 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 #ifndef __${ifdef_filename}_HPP__
 #define __${ifdef_filename}_HPP__
 
-% for typename in typenames:
-
 namespace IntBuffer
 {
- 
+% for typename in typenames:
+
 class ${typename._name}
 {
 public:
@@ -107,16 +106,24 @@ public:
     Int32 size=0;
     % for child in typename._children:
 	  % if child.__class__.__name__ == 'Integer':
-    size++;//${child._name}
+    ++size;//${child._name}
     % elif child.__class__.__name__ == 'Repeated':
-    for(Int32 i=0;i<m_${child._element._name}.size();++i)
+    for(Int32 i=0;i<m_${child._element._name}s.size();++i)
     {
+      % if child._element.__class__.__name__ == 'Integer':
+      ++size;
+      % else:
       size+=m_${child._element._name}s.at(i).size();
+      %endif
     }
     % elif child.__class__.__name__ == 'Set':
-    for(Int32 i=0;i<m_${child._element._name}.size();++i)
+    for(Int32 i=0;i<m_${child._element._name}s.size();++i)
     {
+      % if child._element.__class__.__name__ == 'Integer':
+      ++size;
+      % else:
       size+=m_${child._element._name}s.at(i).size();
+      %endif
     }
 	  % else:
 	  size+=m_${child._name}.Size();
@@ -130,9 +137,17 @@ private:
 	% if child.__class__.__name__ == 'Integer':
   Int32 m_${child._name};
   % elif child.__class__.__name__ == 'Repeated':
+     % if child._element.__class__.__name__ == 'Integer':
+  std::vector<Int32> m_${child._element._name}s;
+     % else:
   std::vector<${child._element._name}> m_${child._element._name}s;
+     % endif
   % elif child.__class__.__name__ == 'Set':
+     % if child._element.__class__.__name__ == 'Integer':
+  std::vector<Int32> m_${child._element._name}s;
+     % else:
   std::vector<${child._element._name}> m_${child._element._name}s;
+     % endif
 	% else:
 	${child._name} m_${child._name};
 	% endif
