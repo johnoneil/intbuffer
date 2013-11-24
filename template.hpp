@@ -10,11 +10,12 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 ///
 ///----------------------------------------------------------------------------
 
+typedef int Int32;
+
 #pragma once
 <% ifdef_filename = output_filename.upper() %>
 #ifndef __${ifdef_filename}_HPP__
 #define __${ifdef_filename}_HPP__
-
 
 #include <vector>
 
@@ -27,9 +28,7 @@ namespace IntBuffer
 class ${typename._name};
 % endfor
 
-
 % for typename in typenames:
-
 class ${typename._name}
 {
 public:
@@ -38,148 +37,83 @@ for child in typename._children:
   if child.__class__.__name__ == 'Integer' and child._default>=0:
     contains_const = True
 first_const = True %>
-%if contains_const:
-  ${typename._name}()
-% for child in typename._children:
-	% if child.__class__.__name__ == 'Integer' and child._default>=0:
-    %if first_const:
-<%first_const=False%>
-  :m_${child._name}(${child._default})
-    %else:
-  ,m_${child._name}(${child._default})
+    %if contains_const:
+  ${typename._name}();
     %endif
-  % endif
-% endfor
-  {};
-%endif
 
 % for child in typename._children:
 	% if child.__class__.__name__ == 'Integer':
 	///=====================================
 	///${child._name}
 	///=====================================
-	Int32 Get${child._name}(void)const{return m_${child._name};};
+	 Int32  Get${child._name}(void)const;
     % if child._default<0:
-	void Set${child._name}(const Int32 value)const{m_${child._name}=value;};
+	void Set${child._name}(const  Int32  value);
     % endif
   % elif child.__class__.__name__ == 'Repeated':
 	///=====================================
 	///${child._element._name}s
 	///=====================================
-  Int32 ${child._element._name}Count(void)const{return static_cast<Int32>(m_${child._element._name}s.size();};
-  ${child._element._name}& Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
-  void Clear${child._element._name}s(void){m_${child._element._name}s.clear();};
-  void Add${child._element._name}(const ${child._element._name}& value){m_${child._element._name}.push_back(value);};
+   Int32  ${child._element._name}Count(void)const;
+    % if child._element.__class__.__name__ == 'Integer':
+   Int32  Get${child._element._name}(const  Int32  index)const;
+  void Add${child._element._name}(const  Int32  value);
+    % else:
+  ${child._element._name}& Get${child._element._name}(const  Int32  index);
+  void Add${child._element._name}(const ${child._element._name}& value);
+    % endif
+  void Clear${child._element._name}s(void);
+  
   % elif child.__class__.__name__ == 'Set':
 	///=====================================
 	///${child._element._name}s
 	///=====================================
-  Int32 ${child._element._name}Count(void)const{return ${child._count};};
-  ${child._element._name}& Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
-  //void Clear${child._element._name}s(void){m_${child._element._name}s.clear();};
-  //void Add${child._element._name}(const ${child._element._name}& value){m_${child._element._name}.push_back(value);};
+   Int32  ${child._element._name}Count(void)const;
+    % if child._element.__class__.__name__ == 'Integer':
+   Int32  Get${child._element._name}(const  Int32  index)const;
+  void Add${child._element._name}(const  Int32  value);
+    % else:
+  ${child._element._name}& Get${child._element._name}(const  Int32  index);
+  void Add${child._element._name}(const ${child._element._name}& value);
+    % endif
+  void Clear${child._element._name}s(void);
 	% else:
   ///=====================================
   ///${child._name}
   ///=====================================
-	${child._name}& Get${child._name}(void)const{return m_${child._name};};
-	void Set${child._name}(const ${child._name}& value)const{m_${child._name}=value;};
+	${child._name}& Get${child._name}(void);
+	void Set${child._name}(const ${child._name}& value);
 	% endif
 % endfor
 
 	///=====================================
 	///Fill structure from integer array
 	///=====================================
-	static ${typename._name} Parse(std::vector<Int32>& array, Int32& index=0)
-	{
-    ${typename._name} returnValue;
+	static ${typename._name} Parse(std::vector< Int32 >& array,  Int32 & index);
 
-		const Int32 size=array[index++];
-		//TODO: failure on incorrect size?
-		% for child in typename._children:
-		% if child.__class__.__name__ == 'Integer':
-		returnValue.m_${child._name}=array[index++];
-		//TODO: test integers that have required default values
-		% elif child.__class__.__name__ == 'Repeated':
-		{
-      returnValue.m_${child._element._name}s.clear();
-			const Int32 count=array[index++];
-			for(Int32 i=0;i<count;++i)
-			{
-        ${child._element._name} value= ${child._element._name}::Parse(array, index);
-				returnValue.m_${child._element._name}s.push_back(value);
-			}
-		}
-    % elif child.__class__.__name__ == 'Set':
-		{
-      returnValue.m_${child._element._name}s.clear();
-			const Int32 count=${child._count};
-			for(Int32 i=0;i<count;++i)
-			{
-        ${child._element._name} value= ${child._element._name}::Parse(array, index);
-				returnValue.m_${child._element._name}s.push_back(value);
-			}
-		}
-		% else:
-		returnValue.m_${child._name}= ${child._name}::Parse(array, index);
-		% endif
-		% endfor
-
-    return returnValue;
-		
-	};
-
-  //
-  // Get the size of this class in 32 bit integers
-  //
-  Int32 Size(void)const
-  {
-    Int32 size=0;
-    % for child in typename._children:
-	  % if child.__class__.__name__ == 'Integer':
-    ++size;//${child._name}
-    % elif child.__class__.__name__ == 'Repeated':
-    for(Int32 i=0;i<m_${child._element._name}s.size();++i)
-    {
-      % if child._element.__class__.__name__ == 'Integer':
-      ++size;
-      % else:
-      size+=m_${child._element._name}s.at(i).size();
-      %endif
-    }
-    % elif child.__class__.__name__ == 'Set':
-    for(Int32 i=0;i<m_${child._element._name}s.size();++i)
-    {
-      % if child._element.__class__.__name__ == 'Integer':
-      ++size;
-      % else:
-      size+=m_${child._element._name}s.at(i).size();
-      %endif
-    }
-	  % else:
-	  size+=m_${child._name}.Size();
-	  % endif
-    % endfor
-    return size;
-  }
-
+	///=====================================
+	///Fill structure from integer array
+	///=====================================
+   Int32  Size(void)const;
 private:
 % for child in typename._children:
 	% if child.__class__.__name__ == 'Integer':
     %if child._default<0:
-  Int32 m_${child._name};
+   Int32  m_${child._name};
     %else:
-  const Int32 m_${child._name};
+    //can't make member const as it disabled compiler generated assignment operator
+    //We'll have to settle for disabling the Setter and initializing it 
+    Int32  m_${child._name};
     %endif
   % elif child.__class__.__name__ == 'Repeated':
      % if child._element.__class__.__name__ == 'Integer':
-  std::vector<Int32> m_${child._element._name}s;
+  std::vector< Int32 > m_${child._element._name}s;
      % else:
   std::vector<${child._element._name}> m_${child._element._name}s;
      % endif
   % elif child.__class__.__name__ == 'Set':
      % if child._element.__class__.__name__ == 'Integer':
-  std::vector<Int32> m_${child._element._name}s;
+  std::vector< Int32 > m_${child._element._name}s;
      % else:
   std::vector<${child._element._name}> m_${child._element._name}s;
      % endif
@@ -190,7 +124,6 @@ private:
 };
 
 % endfor
-
 }//namespace IntBuffer
 
 #endif
