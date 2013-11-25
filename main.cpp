@@ -7,15 +7,13 @@
 
 typedef int Int32;
 
-#include "FreeGamesEvent.hpp"
+#include "FreeGamesData.hpp"
 #include <iostream>
 #include <vector>
 
-
-
-
 int main(int argc, char* argv[])
 {
-
+	IntBuffer::FreeGamesData freeGamesEvent;
+	return 0;
 }
 

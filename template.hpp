@@ -14,34 +14,36 @@ typedef int Int32;
 
 #pragma once
 <% ifdef_filename = output_filename.upper() %>
-#ifndef __${ifdef_filename}_HPP__
-#define __${ifdef_filename}_HPP__
+#ifndef __INTBUFFER_${ifdef_filename}_HPP__
+#define __INTBUFFER_${ifdef_filename}_HPP__
 
 #include <vector>
+%for child in type._children:
+  % if child.__class__.__name__ == 'Class' or child.__class__.__name__ == 'SizedClass':
+#include "${child._name}.hpp"
+  % elif child.__class__.__name__ == 'Set' or child.__class__.__name__=='Repeated':
+    %if child._element.__class__.__name__ != 'Integer':
+#include "${child._element._name}.hpp"
+    %endif
+  % endif
+% endfor
 
 namespace IntBuffer
 {
-///
-///@brief forward declarations
-///
-% for typename in typenames:
-class ${typename._name};
-% endfor
 
-% for typename in typenames:
-class ${typename._name}
+class ${type._name}
 {
 public:
 <% contains_const = False
-for child in typename._children:
+for child in type._children:
   if child.__class__.__name__ == 'Integer' and child._default>=0:
     contains_const = True
 first_const = True %>
     %if contains_const:
-  ${typename._name}();
+  ${type._name}();
     %endif
 
-% for child in typename._children:
+% for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
 	///=====================================
 	///${child._name}
@@ -89,14 +91,14 @@ first_const = True %>
 	///=====================================
 	///Fill structure from integer array
 	///=====================================
-	static ${typename._name} Parse(std::vector< Int32 >& array,  Int32 & index);
+	static ${type._name} Parse(std::vector< Int32 >& array,  Int32 & index);
 
 	///=====================================
 	///Fill structure from integer array
 	///=====================================
    Int32  Size(void)const;
 private:
-% for child in typename._children:
+% for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
     %if child._default<0:
    Int32  m_${child._name};
@@ -123,7 +125,6 @@ private:
 % endfor
 };
 
-% endfor
 }//namespace IntBuffer
 
 #endif
