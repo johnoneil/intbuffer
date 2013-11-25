@@ -89,14 +89,21 @@ first_const = True %>
 % endfor
 
 	///=====================================
-	///Fill structure from integer array
+	///@brief Fill structure from integer array
 	///=====================================
-	static ${type._name} Parse(std::vector< Int32 >& array,  Int32 & index);
+  static ${type._name} Parse(std::vector< Int32 >& array);
+	static ${type._name} Parse(std::vector< Int32 >& array,  Int32& index);
 
 	///=====================================
-	///Fill structure from integer array
+	///@brief write class data to integer array
 	///=====================================
-   Int32  Size(void)const;
+  bool Write(std::vector< Int32 >& array);
+  bool Write(std::vector< Int32 >& array, Int32& index);
+
+  ///
+  ///@brief Get size of class data when dumped to integer array
+  ///
+  Int32  Size(void)const;
 private:
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':

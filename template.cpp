@@ -83,6 +83,12 @@ void ${type._name}::Set${child._name}(const ${child._name}& value){m_${child._na
 ///=====================================
 ///Fill structure from integer array
 ///=====================================
+${type._name} ${type._name}::Parse(std::vector< Int32 >& array)
+{
+  Int32 index=0;
+  return ${type._name}::Parse(array, index);
+}
+
 ${type._name} ${type._name}::Parse(std::vector< Int32 >& array,  Int32 & index)
 {
   ${type._name} returnValue;
@@ -125,6 +131,58 @@ ${type._name} ${type._name}::Parse(std::vector< Int32 >& array,  Int32 & index)
 	  % endif
 	% endfor
   return returnValue;
+}
+
+bool ${type._name}::Write(std::vector< Int32 >& array)
+{
+  Int32 index=0;
+  return Write(array, index);
+}
+
+bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
+{
+  const Int32 size = Size();
+  if(static_cast<Int32>(array.size())-index<size)
+  {
+    return false;//failed to write for lack of room
+  }
+  %if type.__class__.__name__ == 'SizedClass':
+  array[index++]=size;
+  %endif
+  % for child in type._children:
+    % if child.__class__.__name__ == 'Integer':
+  array[index++] = m_${child._name};
+	  % elif child.__class__.__name__ == 'Repeated':
+	{
+		const  Int32  count = ${child._element._name}Count();
+    array[index++] = count;
+		for( Int32  i=0;i<count;++i)
+		{
+      % if child._element.__class__.__name__ == 'Integer':
+      array[index++]=Get${child._element._name}(i);
+      % else:
+      Get${child._element._name}(i).Write(array, index);
+      % endif
+		}
+	}
+    % elif child.__class__.__name__ == 'Set':
+	{
+		const  Int32  count = ${child._element._name}Count();
+    array[index++] = count;
+		for( Int32  i=0;i<count;++i)
+		{
+      % if child._element.__class__.__name__ == 'Integer':
+      array[index++]=Get${child._element._name}(i);
+      % else:
+      Get${child._element._name}(i).Write(array, index);
+      % endif
+		}
+	}
+	  % else:
+	m_${child._name}.Write(array, index);
+	  % endif
+	% endfor
+  return true;
 }
 
 //
