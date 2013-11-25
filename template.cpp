@@ -40,7 +40,7 @@ ${type._name}::${type._name}()
 ///=====================================
 ///${child._name}
 ///=====================================
- Int32  ${type._name}::Get${child._name}(void)const{return m_${child._name};};
+Int32  ${type._name}::Get${child._name}(void)const{return m_${child._name};};
     % if child._default<0:
 void ${type._name}::Set${child._name}(const  Int32  value){m_${child._name}=value;};
     % endif
@@ -48,9 +48,9 @@ void ${type._name}::Set${child._name}(const  Int32  value){m_${child._name}=valu
 ///=====================================
 ///${child._element._name}s
 ///=====================================
- Int32  ${type._name}::${child._element._name}Count(void)const{return static_cast< Int32 >(m_${child._element._name}s.size());};
+Int32  ${type._name}::${child._element._name}Count(void)const{return static_cast< Int32 >(m_${child._element._name}s.size());};
   % if child._element.__class__.__name__ == 'Integer':
- Int32  ${type._name}::Get${child._element._name}(const  Int32  index)const{return m_${child._element._name}s.at(index);};
+Int32  ${type._name}::Get${child._element._name}(const  Int32  index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const  Int32  value){m_${child._element._name}s.push_back(value);};
   % else:
   ${child._element._name}& ${type._name}::Get${child._element._name}(const  Int32  index){return m_${child._element._name}s.at(index);};
@@ -62,9 +62,9 @@ void ${type._name}::Clear${child._element._name}s(void){m_${child._element._name
 ///=====================================
 ///${child._element._name}s
 ///=====================================
- Int32  ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
+Int32  ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
   % if child._element.__class__.__name__ == 'Integer':
- Int32  ${type._name}::Get${child._element._name}(const  Int32  index)const{return m_${child._element._name}s.at(index);};
+Int32  ${type._name}::Get${child._element._name}(const  Int32  index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const  Int32  value){m_${child._element._name}s.push_back(value);};
   % else:
   ${child._element._name}& ${type._name}::Get${child._element._name}(const  Int32  index){return m_${child._element._name}s.at(index);};
@@ -188,9 +188,9 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 //
 // Get the size of this class in 32 bit integers
 //
- Int32  ${type._name}::Size(void)const
+Int32  ${type._name}::Size(void)const
 {
-   Int32  size=0;
+  Int32  size=0;
   % for child in type._children:
   % if child.__class__.__name__ == 'Integer':
   ++size;//${child._name}

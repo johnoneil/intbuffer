@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-24-0956PM-2013
+///@date Nov-24-1022PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -17,14 +17,14 @@ using namespace IntBuffer;
 ///=====================================
 ///Stops
 ///=====================================
- Int32  Spin::StopCount(void)const{return 5;};
- Int32  Spin::GetStop(const  Int32  index)const{return m_Stops.at(index);};
+Int32  Spin::StopCount(void)const{return 5;};
+Int32  Spin::GetStop(const  Int32  index)const{return m_Stops.at(index);};
 void Spin::AddStop(const  Int32  value){m_Stops.push_back(value);};
 void Spin::ClearStops(void){m_Stops.clear();};
 ///=====================================
 ///Prize
 ///=====================================
- Int32  Spin::GetPrize(void)const{return m_Prize;};
+Int32  Spin::GetPrize(void)const{return m_Prize;};
 void Spin::SetPrize(const  Int32  value){m_Prize=value;};
 
 ///=====================================
@@ -83,9 +83,9 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 //
 // Get the size of this class in 32 bit integers
 //
- Int32  Spin::Size(void)const
+Int32  Spin::Size(void)const
 {
-   Int32  size=0;
+  Int32  size=0;
   for( Int32  i=0;i<m_Stops.size();++i)
   {
     ++size;

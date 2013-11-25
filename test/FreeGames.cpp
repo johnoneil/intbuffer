@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-24-0956PM-2013
+///@date Nov-24-1022PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -22,20 +22,20 @@ FreeGames::FreeGames()
 ///=====================================
 ///ThemeId
 ///=====================================
- Int32  FreeGames::GetThemeId(void)const{return m_ThemeId;};
+Int32  FreeGames::GetThemeId(void)const{return m_ThemeId;};
 ///=====================================
 ///VersionId
 ///=====================================
- Int32  FreeGames::GetVersionId(void)const{return m_VersionId;};
+Int32  FreeGames::GetVersionId(void)const{return m_VersionId;};
 ///=====================================
 ///Win
 ///=====================================
- Int32  FreeGames::GetWin(void)const{return m_Win;};
+Int32  FreeGames::GetWin(void)const{return m_Win;};
 void FreeGames::SetWin(const  Int32  value){m_Win=value;};
 ///=====================================
 ///Spins
 ///=====================================
- Int32  FreeGames::SpinCount(void)const{return static_cast< Int32 >(m_Spins.size());};
+Int32  FreeGames::SpinCount(void)const{return static_cast< Int32 >(m_Spins.size());};
   Spin& FreeGames::GetSpin(const  Int32  index){return m_Spins.at(index);};
 void FreeGames::AddSpin(const Spin& value){m_Spins.push_back(value);};
 void FreeGames::ClearSpins(void){m_Spins.clear();};
@@ -104,9 +104,9 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 //
 // Get the size of this class in 32 bit integers
 //
- Int32  FreeGames::Size(void)const
+Int32  FreeGames::Size(void)const
 {
-   Int32  size=0;
+  Int32  size=0;
   ++size;//ThemeId
   ++size;//VersionId
   ++size;//Win

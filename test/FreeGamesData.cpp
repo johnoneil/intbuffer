@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-24-0956PM-2013
+///@date Nov-24-1022PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -22,15 +22,15 @@ FreeGamesData::FreeGamesData()
 ///=====================================
 ///ThemeId
 ///=====================================
- Int32  FreeGamesData::GetThemeId(void)const{return m_ThemeId;};
+Int32  FreeGamesData::GetThemeId(void)const{return m_ThemeId;};
 ///=====================================
 ///VersionId
 ///=====================================
- Int32  FreeGamesData::GetVersionId(void)const{return m_VersionId;};
+Int32  FreeGamesData::GetVersionId(void)const{return m_VersionId;};
 ///=====================================
 ///Win
 ///=====================================
- Int32  FreeGamesData::GetWin(void)const{return m_Win;};
+Int32  FreeGamesData::GetWin(void)const{return m_Win;};
 void FreeGamesData::SetWin(const  Int32  value){m_Win=value;};
 ///=====================================
 ///FreeGames
@@ -86,9 +86,9 @@ bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
 //
 // Get the size of this class in 32 bit integers
 //
- Int32  FreeGamesData::Size(void)const
+Int32  FreeGamesData::Size(void)const
 {
-   Int32  size=0;
+  Int32  size=0;
   ++size;//ThemeId
   ++size;//VersionId
   ++size;//Win

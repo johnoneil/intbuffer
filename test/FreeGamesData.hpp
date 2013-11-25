@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.hpp
-///@date Nov-24-0956PM-2013
+///@date Nov-24-1022PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -28,34 +28,34 @@ public:
 
   FreeGamesData();
 
-	///=====================================
-	///ThemeId
-	///=====================================
-	 Int32  GetThemeId(void)const;
-	///=====================================
-	///VersionId
-	///=====================================
-	 Int32  GetVersionId(void)const;
-	///=====================================
-	///Win
-	///=====================================
-	 Int32  GetWin(void)const;
+  ///=====================================
+  ///ThemeId
+  ///=====================================
+  Int32  GetThemeId(void)const;
+  ///=====================================
+  ///VersionId
+  ///=====================================
+  Int32  GetVersionId(void)const;
+  ///=====================================
+  ///Win
+  ///=====================================
+  Int32  GetWin(void)const;
 	void SetWin(const  Int32  value);
   ///=====================================
   ///FreeGames
   ///=====================================
-	FreeGames& GetFreeGames(void);
-	void SetFreeGames(const FreeGames& value);
+  FreeGames& GetFreeGames(void);
+  void SetFreeGames(const FreeGames& value);
 
-	///=====================================
-	///@brief Fill structure from integer array
-	///=====================================
+  ///=====================================
+  ///@brief Fill structure from integer array
+  ///=====================================
   static FreeGamesData Parse(std::vector< Int32 >& array);
-	static FreeGamesData Parse(std::vector< Int32 >& array,  Int32& index);
+  static FreeGamesData Parse(std::vector< Int32 >& array,  Int32& index);
 
-	///=====================================
-	///@brief write class data to integer array
-	///=====================================
+  ///=====================================
+  ///@brief write class data to integer array
+  ///=====================================
   bool Write(std::vector< Int32 >& array);
   bool Write(std::vector< Int32 >& array, Int32& index);
 
@@ -65,14 +65,14 @@ public:
   Int32  Size(void)const;
 
 private:
-    //can't make member const as it disabled compiler generated assignment operator
-    //We'll have to settle for disabling the Setter and initializing it 
-    Int32  m_ThemeId;
-    //can't make member const as it disabled compiler generated assignment operator
-    //We'll have to settle for disabling the Setter and initializing it 
-    Int32  m_VersionId;
-   Int32  m_Win;
-	FreeGames m_FreeGames;
+  //can't make member const as it disabled compiler generated assignment operator
+  //We'll have to settle for disabling the Setter and initializing it 
+  Int32  m_ThemeId;
+  //can't make member const as it disabled compiler generated assignment operator
+  //We'll have to settle for disabling the Setter and initializing it 
+  Int32  m_VersionId;
+  Int32  m_Win;
+  FreeGames m_FreeGames;
 };
 
 }//namespace IntBuffer
