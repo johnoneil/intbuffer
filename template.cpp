@@ -62,7 +62,7 @@ void ${type._name}::Clear${child._element._name}s(void){m_${child._element._name
 ///=====================================
 ///${child._element._name}s
 ///=====================================
- Int32  ${type._name}::${child._element._name}Count(void)const{return static_cast< Int32 >(m_${child._element._name}s.size());};
+ Int32  ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
   % if child._element.__class__.__name__ == 'Integer':
  Int32  ${type._name}::Get${child._element._name}(const  Int32  index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const  Int32  value){m_${child._element._name}s.push_back(value);};
@@ -142,9 +142,9 @@ bool ${type._name}::Write(std::vector< Int32 >& array)
 bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
-  if(static_cast<Int32>(array.size())-index<size)
+  //if(static_cast<Int32>(array.size())-index<size)
   {
-    return false;//failed to write for lack of room
+  //  return false;//failed to write for lack of room
   }
   %if type.__class__.__name__ == 'SizedClass':
   array[index++]=size;

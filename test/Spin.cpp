@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-24-0900PM-2013
+///@date Nov-24-0956PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ using namespace IntBuffer;
 ///=====================================
 ///Stops
 ///=====================================
- Int32  Spin::StopCount(void)const{return static_cast< Int32 >(m_Stops.size());};
+ Int32  Spin::StopCount(void)const{return 5;};
  Int32  Spin::GetStop(const  Int32  index)const{return m_Stops.at(index);};
 void Spin::AddStop(const  Int32  value){m_Stops.push_back(value);};
 void Spin::ClearStops(void){m_Stops.clear();};
@@ -64,9 +64,9 @@ bool Spin::Write(std::vector< Int32 >& array)
 bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
-  if(static_cast<Int32>(array.size())-index<size)
+  //if(static_cast<Int32>(array.size())-index<size)
   {
-    return false;//failed to write for lack of room
+  //  return false;//failed to write for lack of room
   }
 	{
 		const  Int32  count = StopCount();
