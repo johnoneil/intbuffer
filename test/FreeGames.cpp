@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-24-0731PM-2013
+///@date Nov-24-0900PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -115,6 +115,17 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
     size+=m_Spins.at(i).Size();
   }
   return size;
+}
+
+std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGames& data)
+{
+  out<<"ThemeId:"<<data.GetThemeId()<<std::endl;
+  out<<"VersionId:"<<data.GetVersionId()<<std::endl;
+  out<<"Win:"<<data.GetWin()<<std::endl;
+  for( Int32  i=0;i<data.SpinCount();++i)
+  {
+    out<<"Spin:"<<i<<":"<<data.GetSpin(i)<<std::endl;
+  }
 }
 
 

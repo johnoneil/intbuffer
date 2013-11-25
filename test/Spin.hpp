@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-24-0731PM-2013
+///@date Nov-24-0900PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -15,6 +15,8 @@ typedef int Int32;
 #define __INTBUFFER_SPIN_HPP__
 
 #include <vector>
+#include <iostream>
+
 
 namespace IntBuffer
 {
@@ -53,11 +55,15 @@ public:
   ///@brief Get size of class data when dumped to integer array
   ///
   Int32  Size(void)const;
+
 private:
   std::vector< Int32 > m_Stops;
    Int32  m_Prize;
 };
 
 }//namespace IntBuffer
+
+//os operator to help dump class to std out
+std::ostream& operator<<(std::ostream &out, IntBuffer::Spin& data);
 
 #endif

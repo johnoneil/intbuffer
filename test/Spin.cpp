@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-24-0731PM-2013
+///@date Nov-24-0900PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -92,6 +92,15 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
   }
   ++size;//Prize
   return size;
+}
+
+std::ostream& operator<<(std::ostream &out, IntBuffer::Spin& data)
+{
+  for( Int32  i=0;i<data.StopCount();++i)
+  {
+    out<<"Stop:"<<i<<":"<<data.GetStop(i)<<std::endl;
+  }
+  out<<"Prize:"<<data.GetPrize()<<std::endl;
 }
 
 

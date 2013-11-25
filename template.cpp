@@ -219,4 +219,33 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
   return size;
 }
 
+std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data)
+{
+% for child in type._children:
+  % if child.__class__.__name__ == 'Integer':
+  out<<"${child._name}:"<<data.Get${child._name}()<<std::endl;
+  % elif child.__class__.__name__ == 'Repeated':
+  for( Int32  i=0;i<data.${child._element._name}Count();++i)
+  {
+    % if child._element.__class__.__name__ == 'Integer':
+    out<<"${child._element._name}:"<<i<<":"<<data.Get${child._element._name}(i)<<std::endl;
+    % else:
+    out<<"${child._element._name}:"<<i<<":"<<data.Get${child._element._name}(i)<<std::endl;
+    %endif
+  }
+  % elif child.__class__.__name__ == 'Set':
+  for( Int32  i=0;i<data.${child._element._name}Count();++i)
+  {
+    % if child._element.__class__.__name__ == 'Integer':
+    out<<"${child._element._name}:"<<i<<":"<<data.Get${child._element._name}(i)<<std::endl;
+    % else:
+    out<<"${child._element._name}:"<<i<<":"<<data.Get${child._element._name}(i)<<std::endl;
+    %endif
+  }
+  % else:
+  out<<"${child._name}:"<<data.Get${child._name}()<<std::endl;
+  % endif
+% endfor  
+}
+
 

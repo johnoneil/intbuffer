@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.hpp
-///@date Nov-24-0731PM-2013
+///@date Nov-24-0900PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -15,6 +15,8 @@ typedef int Int32;
 #define __INTBUFFER_FREEGAMES_HPP__
 
 #include <vector>
+#include <iostream>
+
 #include "Spin.hpp"
 
 namespace IntBuffer
@@ -64,6 +66,7 @@ public:
   ///@brief Get size of class data when dumped to integer array
   ///
   Int32  Size(void)const;
+
 private:
     //can't make member const as it disabled compiler generated assignment operator
     //We'll have to settle for disabling the Setter and initializing it 
@@ -76,5 +79,8 @@ private:
 };
 
 }//namespace IntBuffer
+
+//os operator to help dump class to std out
+std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGames& data);
 
 #endif

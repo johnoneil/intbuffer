@@ -18,6 +18,8 @@ typedef int Int32;
 #define __INTBUFFER_${ifdef_filename}_HPP__
 
 #include <vector>
+#include <iostream>
+
 %for child in type._children:
   % if child.__class__.__name__ == 'Class' or child.__class__.__name__ == 'SizedClass':
 #include "${child._name}.hpp"
@@ -104,6 +106,7 @@ first_const = True %>
   ///@brief Get size of class data when dumped to integer array
   ///
   Int32  Size(void)const;
+
 private:
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
@@ -133,5 +136,8 @@ private:
 };
 
 }//namespace IntBuffer
+
+//os operator to help dump class to std out
+std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data);
 
 #endif

@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-24-0731PM-2013
+///@date Nov-24-0900PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -94,6 +94,14 @@ bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
   ++size;//Win
   size+=m_FreeGames.Size();
   return size;
+}
+
+std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGamesData& data)
+{
+  out<<"ThemeId:"<<data.GetThemeId()<<std::endl;
+  out<<"VersionId:"<<data.GetVersionId()<<std::endl;
+  out<<"Win:"<<data.GetWin()<<std::endl;
+  out<<"FreeGames:"<<data.GetFreeGames()<<std::endl;
 }
 
 

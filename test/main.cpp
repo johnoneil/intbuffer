@@ -11,7 +11,8 @@ typedef int Int32;
 #include <iostream>
 #include <vector>
 
-#
+using std::cout;
+using std::endl;
 
 int main(int argc, char* argv[])
 {
@@ -36,6 +37,7 @@ int main(int argc, char* argv[])
 	}
 
 	//Dump current class data to screen
+	cout<<data;
 
 	//write class data to integer buffer
 	const Int32 size=data.Size();
@@ -47,6 +49,7 @@ int main(int argc, char* argv[])
 	IntBuffer::FreeGamesData readData=IntBuffer::FreeGamesData::Parse(buffer);
 
 	//Dump contents of class to screen.
+	cout<<readData;
 
 
 	return 0;
