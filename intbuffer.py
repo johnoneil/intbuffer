@@ -91,10 +91,11 @@ def generate_code(classes, output_filename):
   render_from_templates(code, output_filename)
 
 def render_from_templates(code, output_filename):
-  #global template_string
-  #mytemplate = Template(template_string)
-  hpp_template = Template(filename='template.hpp')
-  cpp_template = Template(filename='template.cpp')
+  #using __file__ to locate templates relative to this module
+  absolute_path=os.path.abspath(__file__)
+  current_directory=os.path.dirname(absolute_path)
+  hpp_template = Template(filename=current_directory+'/template.hpp')
+  cpp_template = Template(filename=current_directory+'/template.cpp')
   for top_level_class in code:
     filename=top_level_class._name
     mydata={'type':top_level_class,'output_filename':filename}
