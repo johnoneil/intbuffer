@@ -92,40 +92,43 @@ ${type._name} ${type._name}::Parse(std::vector< Int32 >& array)
 ${type._name} ${type._name}::Parse(std::vector< Int32 >& array,  Int32 & index)
 {
   ${type._name} returnValue;
-	const  Int32  size=array[index++];
+  %if type.__class__.__name__=='SizedClass':
+  	const  Int32  size=array[index++];
 	//TODO: failure on incorrect size?
+  % endif
 	% for child in type._children:
     % if child.__class__.__name__ == 'Integer':
   returnValue.m_${child._name}=array[index++];
-	//TODO: test integers that have required default values
-	  % elif child.__class__.__name__ == 'Repeated':
-	{
+  //TODO: test integers that have required default values
+    % elif child.__class__.__name__ == 'Repeated':
+  {
     returnValue.m_${child._element._name}s.clear();
-		const  Int32  count=array[index++];
-		for( Int32  i=0;i<count;++i)
-		{
+    const  Int32  count=array[index++];
+    for( Int32  i=0;i<count;++i)
+    {
       % if child._element.__class__.__name__ == 'Integer':
       Int32 value= array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
-			returnValue.m_${child._element._name}s.push_back(value);
-		}
-	}
+      returnValue.m_${child._element._name}s.push_back(value);
+    }
+  }
     % elif child.__class__.__name__ == 'Set':
-	{
+  {
+    //This is a set
     returnValue.m_${child._element._name}s.clear();
-		const  Int32  count=${child._count};
-		for( Int32  i=0;i<count;++i)
-		{
+    const  Int32  count=${child._count};
+    for( Int32  i=0;i<count;++i)
+    {
       % if child._element.__class__.__name__ == 'Integer':
       Int32 value= array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
-			returnValue.m_${child._element._name}s.push_back(value);
-		}
-	}
+      returnValue.m_${child._element._name}s.push_back(value);
+    }
+  }
 	  % else:
 	returnValue.m_${child._name}= ${child._name}::Parse(array, index);
 	  % endif
@@ -168,7 +171,9 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     % elif child.__class__.__name__ == 'Set':
 	{
 		const  Int32  count = ${child._element._name}Count();
-    array[index++] = count;
+    //As "set" is defined as a STATIC list with known number of elements
+    //therefore we don't have to head it with the element count    
+    //array[index++] = count;
 		for( Int32  i=0;i<count;++i)
 		{
       % if child._element.__class__.__name__ == 'Integer':
@@ -195,6 +200,7 @@ Int32  ${type._name}::Size(void)const
   % if child.__class__.__name__ == 'Integer':
   ++size;//${child._name}
   % elif child.__class__.__name__ == 'Repeated':
+  ++size;//increment once for the number of elements 'header'
   for( Int32  i=0;i<m_${child._element._name}s.size();++i)
   {
     % if child._element.__class__.__name__ == 'Integer':

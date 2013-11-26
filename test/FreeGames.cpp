@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-24-1022PM-2013
+///@date Nov-26-1221AM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -53,23 +53,23 @@ FreeGames FreeGames::Parse(std::vector< Int32 >& array)
 FreeGames FreeGames::Parse(std::vector< Int32 >& array,  Int32 & index)
 {
   FreeGames returnValue;
-	const  Int32  size=array[index++];
+  	const  Int32  size=array[index++];
 	//TODO: failure on incorrect size?
   returnValue.m_ThemeId=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
   returnValue.m_VersionId=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
   returnValue.m_Win=array[index++];
-	//TODO: test integers that have required default values
-	{
+  //TODO: test integers that have required default values
+  {
     returnValue.m_Spins.clear();
-		const  Int32  count=array[index++];
-		for( Int32  i=0;i<count;++i)
-		{
+    const  Int32  count=array[index++];
+    for( Int32  i=0;i<count;++i)
+    {
       Spin value= Spin::Parse(array, index);
-			returnValue.m_Spins.push_back(value);
-		}
-	}
+      returnValue.m_Spins.push_back(value);
+    }
+  }
   return returnValue;
 }
 
@@ -110,6 +110,7 @@ Int32  FreeGames::Size(void)const
   ++size;//ThemeId
   ++size;//VersionId
   ++size;//Win
+  ++size;//increment once for the number of elements 'header'
   for( Int32  i=0;i<m_Spins.size();++i)
   {
     size+=m_Spins.at(i).Size();

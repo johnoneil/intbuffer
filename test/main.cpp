@@ -8,6 +8,7 @@
 typedef int Int32;
 
 #include "FreeGamesData.hpp"
+#include "FreeGames.hpp"
 #include <iostream>
 #include <vector>
 
@@ -34,30 +35,29 @@ int main(int argc, char* argv[])
 		}
 		spin.SetPrize(300);
 		freegames.AddSpin(spin);
-		//cout<<"Current spin count is "<<freegames.SpinCount()<<endl;
-		//cout<<"Spin number "<<s<<" is "<<spin;
 	}
 
-	cout<<"total spins in freegames is "<<data.GetFreeGames().SpinCount()<<endl;
+	cout<<"total spins in freegames is "<<freegames.SpinCount()<<endl;
 
 	//Dump current class data to screen
-	//cout<<data;
+	cout<<freegames;
 
 	//write class data to integer buffer
-	const Int32 size=data.Size();
-	cout<<"Size of the free spins data is now "<<size<<endl;
-	std::vector<Int32> buffer(2*size);
-	data.Write(buffer);
+	const Int32 size=freegames.Size();
+	cout<<"Size of the free spins required writing buffer is "<<size<<endl;
+	std::vector<Int32> buffer(size);
+	freegames.Write(buffer);
+	cout<<"--------------------------------------"<<endl;
 
 	//Read buffer data into another instance of class
-	IntBuffer::FreeGamesData readData=IntBuffer::FreeGamesData::Parse(buffer);
+	IntBuffer::FreeGames readData=IntBuffer::FreeGames::Parse(buffer);
 
 	//Dump contents of class to screen.
 	cout<<"--------------------------------------"<<endl;
 	const Int32 readSize=readData.Size();
-	cout<<"Size of the read back free spins data is now "<<readSize<<endl;
-	cout<<"Data read back from buffer is now:"<<endl;
-	//cout<<readData;
+	cout<<"Size of the read back free spins data is "<<readSize<<endl;
+	cout<<"Data read back from buffer is:"<<endl;
+	cout<<readData;
 
 
 	return 0;

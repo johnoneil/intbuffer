@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-24-1022PM-2013
+///@date Nov-26-1221AM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -39,19 +39,18 @@ Spin Spin::Parse(std::vector< Int32 >& array)
 Spin Spin::Parse(std::vector< Int32 >& array,  Int32 & index)
 {
   Spin returnValue;
-	const  Int32  size=array[index++];
-	//TODO: failure on incorrect size?
-	{
+  {
+    //This is a set
     returnValue.m_Stops.clear();
-		const  Int32  count=5;
-		for( Int32  i=0;i<count;++i)
-		{
+    const  Int32  count=5;
+    for( Int32  i=0;i<count;++i)
+    {
       Int32 value= array[index++];
-			returnValue.m_Stops.push_back(value);
-		}
-	}
+      returnValue.m_Stops.push_back(value);
+    }
+  }
   returnValue.m_Prize=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
   return returnValue;
 }
 
@@ -70,7 +69,9 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
   }
 	{
 		const  Int32  count = StopCount();
-    array[index++] = count;
+    //As "set" is defined as a STATIC list with known number of elements
+    //therefore we don't have to head it with the element count    
+    //array[index++] = count;
 		for( Int32  i=0;i<count;++i)
 		{
       array[index++]=GetStop(i);

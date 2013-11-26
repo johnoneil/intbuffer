@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-24-1022PM-2013
+///@date Nov-26-1221AM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -50,14 +50,14 @@ FreeGamesData FreeGamesData::Parse(std::vector< Int32 >& array)
 FreeGamesData FreeGamesData::Parse(std::vector< Int32 >& array,  Int32 & index)
 {
   FreeGamesData returnValue;
-	const  Int32  size=array[index++];
+  	const  Int32  size=array[index++];
 	//TODO: failure on incorrect size?
   returnValue.m_ThemeId=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
   returnValue.m_VersionId=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
   returnValue.m_Win=array[index++];
-	//TODO: test integers that have required default values
+  //TODO: test integers that have required default values
 	returnValue.m_FreeGames= FreeGames::Parse(array, index);
   return returnValue;
 }

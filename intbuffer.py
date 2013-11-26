@@ -40,11 +40,11 @@ class Integer(object):
     self._name=name
     self._default=default
 
-class Repeated:
+class Repeated(object):
 	def __init__(self, element):
 		self._element=element
 
-class Set:
+class Set(object):
   def __init__(self, element, count):
     self._element=element
     self._count=count
