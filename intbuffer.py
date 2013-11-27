@@ -16,35 +16,58 @@ import argparse
 import os
 from mako.template import Template
 
-#http://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-in-python
 def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+  '''
+  Determine if input argument can be interpreted as a number (float) or not
+  See also http://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-in-python
+
+  :param s: object to determine numerical status on
+  :type s: any
+  '''
+  try:
+      float(s)
+      return True
+  except ValueError:
+      return False
 
 class Class(object):
-	def __init__(self, name):
+  '''Class to encapsulate standard c++ class to generate.
+  '''
+  def __init__(self, name):
 		self._name=name
 		self._children=[]
-	def AddChild(self, child):
+
+  def AddChild(self, child):
 		self._children.append(child)
 
 class SizedClass(Class):
+  '''
+  Class to encapsulate sized (preceeded by integer size) c++ class to generate.
+  '''
   def __init__(self, name):
     Class.__init__(self, name)
 
 class Integer(object):
+  '''
+  Class to encapsulate integer class member to generate.
+  '''
   def __init__(self, name, default=-1):
     self._name=name
     self._default=default
 
 class Repeated(object):
-	def __init__(self, element):
+  '''
+  Class wrapper denoting a series of variable N class members within generated c++.
+  Repeated classes are preceded by an integer count in the associated integer arrray.
+  '''
+  def __init__(self, element):
 		self._element=element
 
 class Set(object):
+  '''
+  Class wrapper denoting a predetermined N class members within generated c++.
+  Sets need not be tagged with a "count" in the associated integer array.
+  '''
   def __init__(self, element, count):
     self._element=element
     self._count=count
@@ -80,7 +103,7 @@ def is_top_level_class(classname, classes):
       return True
   return False
 
-def generate_code(classes, output_filename):
+def generate_code(classes, namespace):
   code=[]
   for c in classes:
     current_class=code_from_line(c[0], classes)
@@ -88,22 +111,21 @@ def generate_code(classes, output_filename):
       current_class.AddChild(code_from_line(child, classes))
     code.append(current_class)
 
-  render_from_templates(code, output_filename)
+  render_from_templates(code, namespace)
 
-def render_from_templates(code, output_filename):
+def render_from_templates(code, namespace):
   #using __file__ to locate templates relative to this module
   absolute_path=os.path.abspath(__file__)
   current_directory=os.path.dirname(absolute_path)
-  hpp_template = Template(filename=current_directory+'/template.hpp')
-  cpp_template = Template(filename=current_directory+'/template.cpp')
+  hpp_template = Template(filename=os.path.join(current_directory,'template.hpp'))
+  cpp_template = Template(filename=os.path.join(current_directory,'template.cpp'))
   for top_level_class in code:
     filename=top_level_class._name
-    mydata={'type':top_level_class,'output_filename':filename}
+    mydata={'type':top_level_class,'output_filename':filename,'namespace':namespace}
     with open(filename+'.hpp','w') as hpp:
       hpp.write(hpp_template.render(**mydata))
     with open(filename+'.cpp','w') as cpp:
       cpp.write(cpp_template.render(**mydata))
-  #print mytemplate.render(typenames=code)
 
 def code_from_line(line, classes):
   words = line.split(' ')
@@ -128,24 +150,24 @@ def code_from_line(line, classes):
     return Integer(first_word,default=int(remaining_words))
 
 
-def generate_output_from_filenames(input_filename, output_filename):
+def generate_output_from_filenames(input_filename, namespace):
   if not os.path.isfile(input_filename):
     print 'Could not find input file ' + input_filename
     return
   file = open(input_filename)
-  return generate_output(file, output_filename)
+  return generate_output(file, namespace)
 
 
 def main():
   parser = argparse.ArgumentParser(description='Generate Integer buffer support code from domain specific text description of structure.')
   parser.add_argument('infile', help='Input domain specific text description of C++ structures to generate.')
   parser.add_argument('-v','--verbose', help='Verbose operation. Print status messages during processing', action="store_true")
-  parser.add_argument('-o', '--outfile', help='Threshold for nonzero pixels to separete vert/horiz text lines.',default='Parser')
   parser.add_argument('--namespace', help='Namespace to wrap generated code', default='IntBuffer')
   args = parser.parse_args()
 
   infile = args.infile
-  outfile = args.outfile
+  namespace = args.namespace
+  print 'namespace is ' + namespace
 
   if args.verbose:
     print '''******************************************************************************
@@ -157,7 +179,7 @@ Sat Nov 23rd, 2013
 '''
     print 'Generating files '+outfile+'.hpp and '+outfile+'.cpp via input file '+infile
 
-  generate_output_from_filenames(infile, outfile)
+  generate_output_from_filenames(infile, namespace)
 
 if __name__ == '__main__':
   main()

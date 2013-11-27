@@ -28,7 +28,7 @@ typedef int Int32;
     %endif
   % endif
 % endfor
-namespace IntBuffer
+namespace ${namespace}
 {
 
 class ${type._name}
@@ -140,7 +140,7 @@ private:
 bool Is${type._name}(const std::vector< Int32 >& array);
 %endif
 
-}//namespace IntBuffer
+}//namespace ${namespace}
 
 //os operator to help dump class to std out
 std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data);
