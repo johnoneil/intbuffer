@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-26-1221AM-2013
+///@date Nov-26-0438PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -29,21 +29,21 @@ public:
   ///=====================================
   ///Stops
   ///=====================================
-  Int32  StopCount(void)const;
-  Int32  GetStop(const  Int32  index)const;
-  void AddStop(const  Int32  value);
+  Int32 StopCount(void)const;
+  Int32 GetStop(const Int32 index)const;
+  void AddStop(const Int32 value);
   void ClearStops(void);
   ///=====================================
   ///Prize
   ///=====================================
-  Int32  GetPrize(void)const;
-	void SetPrize(const  Int32  value);
+  Int32 GetPrize(void)const;
+	void SetPrize(const Int32 value);
 
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
   static Spin Parse(std::vector< Int32 >& array);
-  static Spin Parse(std::vector< Int32 >& array,  Int32& index);
+  static Spin Parse(std::vector< Int32 >& array, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -58,7 +58,7 @@ public:
 
 private:
   std::vector< Int32 > m_Stops;
-  Int32  m_Prize;
+  Int32 m_Prize;
 };
 
 }//namespace IntBuffer

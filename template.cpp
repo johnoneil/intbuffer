@@ -40,7 +40,7 @@ ${type._name}::${type._name}()
 ///=====================================
 ///${child._name}
 ///=====================================
-Int32  ${type._name}::Get${child._name}(void)const{return m_${child._name};};
+Int32 ${type._name}::Get${child._name}(void)const{return m_${child._name};};
     % if child._default<0:
 void ${type._name}::Set${child._name}(const Int32 value){m_${child._name}=value;};
     % endif
@@ -48,9 +48,9 @@ void ${type._name}::Set${child._name}(const Int32 value){m_${child._name}=value;
 ///=====================================
 ///${child._element._name}s
 ///=====================================
-Int32  ${type._name}::${child._element._name}Count(void)const{return static_cast<Int32>(m_${child._element._name}s.size());};
+Int32 ${type._name}::${child._element._name}Count(void)const{return static_cast< Int32 >(m_${child._element._name}s.size());};
   % if child._element.__class__.__name__ == 'Integer':
-Int32  ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
+Int32 ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const Int32 value){m_${child._element._name}s.push_back(value);};
   % else:
   ${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index){return m_${child._element._name}s.at(index);};
@@ -62,9 +62,9 @@ void ${type._name}::Clear${child._element._name}s(void){m_${child._element._name
 ///=====================================
 ///${child._element._name}s
 ///=====================================
-Int32  ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
+Int32 ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
   % if child._element.__class__.__name__ == 'Integer':
-Int32  ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
+Int32 ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const Int32 value){m_${child._element._name}s.push_back(value);};
   % else:
   ${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index){return m_${child._element._name}s.at(index);};
@@ -83,13 +83,13 @@ void ${type._name}::Set${child._name}(const ${child._name}& value){m_${child._na
 ///=====================================
 ///Fill structure from integer array
 ///=====================================
-${type._name} ${type._name}::Parse(std::vector<Int32>& array)
+${type._name} ${type._name}::Parse(std::vector< Int32 >& array)
 {
- Int32index=0;
+ Int32 index=0;
   return ${type._name}::Parse(array, index);
 }
 
-${type._name} ${type._name}::Parse(std::vector<Int32>& array, Int32& index)
+${type._name} ${type._name}::Parse(std::vector< Int32 >& array, Int32& index)
 {
   ${type._name} returnValue;
   %if type.__class__.__name__=='SizedClass':
@@ -107,7 +107,7 @@ ${type._name} ${type._name}::Parse(std::vector<Int32>& array, Int32& index)
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-     Int32value= array[index++];
+     Int32 value= array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
@@ -122,7 +122,7 @@ ${type._name} ${type._name}::Parse(std::vector<Int32>& array, Int32& index)
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-     Int32value= array[index++];
+     Int32 value= array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
@@ -136,15 +136,15 @@ ${type._name} ${type._name}::Parse(std::vector<Int32>& array, Int32& index)
   return returnValue;
 }
 
-bool ${type._name}::Write(std::vector<Int32>& array)
+bool ${type._name}::Write(std::vector< Int32 >& array)
 {
- Int32index=0;
+ Int32 index=0;
   return Write(array, index);
 }
 
-bool ${type._name}::Write(std::vector<Int32>& array, Int32& index)
+bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 {
-  constInt32size = Size();
+  const Int32 size = Size();
   //if(static_cast<Int32>(array.size())-index<size)
   {
     //return false;//failed to write for lack of room
@@ -193,9 +193,12 @@ bool ${type._name}::Write(std::vector<Int32>& array, Int32& index)
 //
 // Get the size of this class in 32 bit integers
 //
-Int32  ${type._name}::Size(void)const
+Int32 ${type._name}::Size(void)const
 {
  Int32 size=0;
+  %if type.__class__.__name__ == 'SizedClass':
+  size++;//sized class header
+  %endif
   % for child in type._children:
   % if child.__class__.__name__ == 'Integer':
   ++size;//${child._name}
@@ -251,7 +254,8 @@ std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data)
   % else:
   out<<"${child._name}:"<<data.Get${child._name}()<<std::endl;
   % endif
-% endfor  
+% endfor
+  return out;
 }
 
 
