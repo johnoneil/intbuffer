@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.hpp
-///@date Nov-26-1221AM-2013
+///@date Nov-26-0848PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -16,9 +16,7 @@ typedef int Int32;
 
 #include <vector>
 #include <iostream>
-
 #include "FreeGames.hpp"
-
 namespace IntBuffer
 {
 
@@ -27,20 +25,19 @@ class FreeGamesData
 public:
 
   FreeGamesData();
-
   ///=====================================
-  ///ThemeId
+  ///@ThemeId
   ///=====================================
-  Int32  GetThemeId(void)const;
+  Int32 GetThemeId(void)const;
   ///=====================================
-  ///VersionId
+  ///@VersionId
   ///=====================================
-  Int32  GetVersionId(void)const;
+  Int32 GetVersionId(void)const;
   ///=====================================
-  ///Win
+  ///@Win
   ///=====================================
-  Int32  GetWin(void)const;
-	void SetWin(const  Int32  value);
+  Int32 GetWin(void)const;
+  void SetWin(const Int32 value);
   ///=====================================
   ///FreeGames
   ///=====================================
@@ -50,8 +47,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FreeGamesData Parse(std::vector< Int32 >& array);
-  static FreeGamesData Parse(std::vector< Int32 >& array,  Int32& index);
+  static FreeGamesData Parse(const std::vector< Int32 >& array);
+  static FreeGamesData Parse(const std::vector< Int32 >& array, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -67,13 +64,19 @@ public:
 private:
   //can't make member const as it disabled compiler generated assignment operator
   //We'll have to settle for disabling the Setter and initializing it 
-  Int32  m_ThemeId;
+  Int32 m_ThemeId;
   //can't make member const as it disabled compiler generated assignment operator
   //We'll have to settle for disabling the Setter and initializing it 
-  Int32  m_VersionId;
-  Int32  m_Win;
+  Int32 m_VersionId;
+  Int32 m_Win;
   FreeGames m_FreeGames;
 };
+
+///
+///@brief Helper to see if a given buffer satisfies the
+///'requirements' for being a certain type.
+///
+bool IsFreeGamesData(const std::vector< Int32 >& array);
 
 }//namespace IntBuffer
 
