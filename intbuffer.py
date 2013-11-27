@@ -167,7 +167,6 @@ def main():
 
   infile = args.infile
   namespace = args.namespace
-  print 'namespace is ' + namespace
 
   if args.verbose:
     print '''******************************************************************************
@@ -177,7 +176,8 @@ John O'Neil
 Sat Nov 23rd, 2013
 ******************************************************************************
 '''
-    print 'Generating files '+outfile+'.hpp and '+outfile+'.cpp via input file '+infile
+    print 'Generating files via input file '+infile
+    print 'Generated classes will be in namespace ' + namespace
 
   generate_output_from_filenames(infile, namespace)
 

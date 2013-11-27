@@ -49,7 +49,7 @@ first_const = True %>
   ///=====================================
   Int32 Get${child._name}(void)const;
     % if child._default<0:
-	void Set${child._name}(const Int32 value);
+  void Set${child._name}(const Int32 value);
     % endif
   % elif child.__class__.__name__ == 'Repeated':
   ///=====================================
