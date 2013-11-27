@@ -213,13 +213,16 @@ Int32 ${type._name}::Size(void)const
     %endif
   }
   % elif child.__class__.__name__ == 'Set':
-  for(Int32 i=0;i<m_${child._element._name}s.size();++i)
   {
-    % if child._element.__class__.__name__ == 'Integer':
-    ++size;
-    % else:
-    size+=m_${child._element._name}s.at(i).Size();
-    %endif
+    const Int32 count = ${child._element._name}Count();
+    for(Int32 i=0;i<count;++i)
+    {
+      % if child._element.__class__.__name__ == 'Integer':
+      ++size;
+      % else:
+      size+=m_${child._element._name}s.at(i).Size();
+      %endif
+    }
   }
   % else:
   size+=m_${child._name}.Size();

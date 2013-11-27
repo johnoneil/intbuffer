@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-26-0438PM-2013
+///@date Nov-26-0448PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -87,9 +87,12 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 Int32 Spin::Size(void)const
 {
  Int32 size=0;
-  for(Int32 i=0;i<m_Stops.size();++i)
   {
-    ++size;
+    const Int32 count = StopCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      ++size;
+    }
   }
   ++size;//Prize
   return size;
