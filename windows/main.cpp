@@ -49,15 +49,24 @@ int main(int argc, char* argv[])
 	data.Write(buffer);
 	cout<<"--------------------------------------"<<endl;
 
-	//Read buffer data into another instance of class
-	IntBuffer::FreeGamesData readData=IntBuffer::FreeGamesData::Parse(buffer);
+	//try to see what kind of data is in the buffer
+	if(IntBuffer::IsFreeGames(buffer))
+	{
+		cout<<"This is freegames!"<<endl;
+	}
+	if(IntBuffer::IsFreeGamesData(buffer))
+	{
+		cout<<"This is freegamesData!"<<endl;
+		//Read buffer data into another instance of class
+		IntBuffer::FreeGamesData readData=IntBuffer::FreeGamesData::Parse(buffer);
 
-	//Dump contents of class to screen.
-	cout<<"--------------------------------------"<<endl;
-	const Int32 readSize=readData.Size();
-	cout<<"Size of the read back free spins data is "<<readSize<<endl;
-	cout<<"Data read back from buffer is:"<<endl;
-	cout<<readData;
+		//Dump contents of class to screen.
+		cout<<"--------------------------------------"<<endl;
+		const Int32 readSize=readData.Size();
+		cout<<"Size of the read back free spins data is "<<readSize<<endl;
+		cout<<"Data read back from buffer is:"<<endl;
+		cout<<readData;
+	}
 
 
 	return 0;
