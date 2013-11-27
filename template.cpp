@@ -212,7 +212,8 @@ Int32 ${type._name}::Size(void)const
   ++size;//${child._name}
   % elif child.__class__.__name__ == 'Repeated':
   ++size;//increment once for the number of elements 'header'
-  for(Int32 i=0;i<m_${child._element._name}s.size();++i)
+  const Int32 count = ${child._element._name}Count();
+  for(Int32 i=0;i<count;++i)
   {
     % if child._element.__class__.__name__ == 'Integer':
     ++size;
