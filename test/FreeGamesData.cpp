@@ -3,11 +3,12 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-26-0448PM-2013
+///@date Nov-26-0519PM-2013
 ///
 ///----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
+#include <stdexcept>
 #include "FreeGamesData.hpp"
 
 using namespace IntBuffer;
@@ -41,23 +42,32 @@ void FreeGamesData::SetFreeGames(const FreeGames& value){m_FreeGames=value;};
 ///=====================================
 ///Fill structure from integer array
 ///=====================================
-FreeGamesData FreeGamesData::Parse(std::vector< Int32 >& array)
+FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
   return FreeGamesData::Parse(array, index);
 }
 
-FreeGamesData FreeGamesData::Parse(std::vector< Int32 >& array, Int32& index)
+FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   FreeGamesData returnValue;
   	const Int32 size=array[index++];
-	//TODO: failure on incorrect size?
+  if(static_cast<Int32>(array.size())-index+1<size)
+  {
+    //not enough array for whole class. throw.
+    throw std::runtime_error("FreeGamesData cannot be generated from buffer due to incorrect size.");
+  }
   returnValue.m_ThemeId=array[index++];
-  //TODO: test integers that have required default values
+  if(returnValue.m_ThemeId!=3)
+  {
+    throw std::runtime_error("FreeGamesData cannot be generated from buffer due to incorrect value of m_ThemeId");
+  }
   returnValue.m_VersionId=array[index++];
-  //TODO: test integers that have required default values
+  if(returnValue.m_VersionId!=4)
+  {
+    throw std::runtime_error("FreeGamesData cannot be generated from buffer due to incorrect value of m_VersionId");
+  }
   returnValue.m_Win=array[index++];
-  //TODO: test integers that have required default values
 	returnValue.m_FreeGames= FreeGames::Parse(array, index);
   return returnValue;
 }
@@ -96,6 +106,18 @@ Int32 FreeGamesData::Size(void)const
   size+=m_FreeGames.Size();
   return size;
 }
+
+bool IntBuffer::IsFreeGamesData(const std::vector< Int32 >& array)
+{
+  try
+  {
+    FreeGamesData value = FreeGamesData::Parse(array);
+  }catch(...)
+  {
+    return false;
+  }
+  return true;
+};
 
 std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGamesData& data)
 {

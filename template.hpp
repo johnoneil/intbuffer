@@ -93,8 +93,8 @@ first_const = True %>
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static ${type._name} Parse(std::vector< Int32 >& array);
-  static ${type._name} Parse(std::vector< Int32 >& array, Int32& index);
+  static ${type._name} Parse(const std::vector< Int32 >& array);
+  static ${type._name} Parse(const std::vector< Int32 >& array, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -134,6 +134,14 @@ private:
 	% endif
 % endfor
 };
+
+%if contains_const:
+///
+///@brief Helper to see if a given buffer satisfies the
+///'requirements' for being a certain type.
+///
+bool Is${type._name}(const std::vector< Int32 >& array);
+%endif
 
 }//namespace IntBuffer
 

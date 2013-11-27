@@ -3,11 +3,12 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-26-0448PM-2013
+///@date Nov-26-0519PM-2013
 ///
 ///----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
+#include <stdexcept>
 #include "Spin.hpp"
 
 using namespace IntBuffer;
@@ -30,13 +31,13 @@ void Spin::SetPrize(const Int32 value){m_Prize=value;};
 ///=====================================
 ///Fill structure from integer array
 ///=====================================
-Spin Spin::Parse(std::vector< Int32 >& array)
+Spin Spin::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
   return Spin::Parse(array, index);
 }
 
-Spin Spin::Parse(std::vector< Int32 >& array, Int32& index)
+Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   Spin returnValue;
   {
@@ -50,7 +51,6 @@ Spin Spin::Parse(std::vector< Int32 >& array, Int32& index)
     }
   }
   returnValue.m_Prize=array[index++];
-  //TODO: test integers that have required default values
   return returnValue;
 }
 
@@ -97,6 +97,7 @@ Int32 Spin::Size(void)const
   ++size;//Prize
   return size;
 }
+
 
 std::ostream& operator<<(std::ostream &out, IntBuffer::Spin& data)
 {

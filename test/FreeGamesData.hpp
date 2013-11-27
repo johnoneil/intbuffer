@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.hpp
-///@date Nov-26-0448PM-2013
+///@date Nov-26-0519PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FreeGamesData Parse(std::vector< Int32 >& array);
-  static FreeGamesData Parse(std::vector< Int32 >& array, Int32& index);
+  static FreeGamesData Parse(const std::vector< Int32 >& array);
+  static FreeGamesData Parse(const std::vector< Int32 >& array, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -74,6 +74,12 @@ private:
   Int32 m_Win;
   FreeGames m_FreeGames;
 };
+
+///
+///@brief Helper to see if a given buffer satisfies the
+///'requirements' for being a certain type.
+///
+bool IsFreeGamesData(const std::vector< Int32 >& array);
 
 }//namespace IntBuffer
 

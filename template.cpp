@@ -11,6 +11,7 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 ///----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
+#include <stdexcept>
 #include "${output_filename}.hpp"
 
 using namespace IntBuffer;
@@ -83,23 +84,32 @@ void ${type._name}::Set${child._name}(const ${child._name}& value){m_${child._na
 ///=====================================
 ///Fill structure from integer array
 ///=====================================
-${type._name} ${type._name}::Parse(std::vector< Int32 >& array)
+${type._name} ${type._name}::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
   return ${type._name}::Parse(array, index);
 }
 
-${type._name} ${type._name}::Parse(std::vector< Int32 >& array, Int32& index)
+${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   ${type._name} returnValue;
   %if type.__class__.__name__=='SizedClass':
   	const Int32 size=array[index++];
-	//TODO: failure on incorrect size?
+  if(static_cast<Int32>(array.size())-index+1<size)
+  {
+    //not enough array for whole class. throw.
+    throw std::runtime_error("${type._name} cannot be generated from buffer due to incorrect size.");
+  }
   % endif
 	% for child in type._children:
     % if child.__class__.__name__ == 'Integer':
   returnValue.m_${child._name}=array[index++];
-  //TODO: test integers that have required default values
+      %if child._default >=0:
+  if(returnValue.m_${child._name}!=${child._default})
+  {
+    throw std::runtime_error("${type._name} cannot be generated from buffer due to incorrect value of m_${child._name}");
+  }
+      %endif
     % elif child.__class__.__name__ == 'Repeated':
   {
     returnValue.m_${child._element._name}s.clear();
@@ -230,6 +240,20 @@ Int32 ${type._name}::Size(void)const
   % endfor
   return size;
 }
+
+%if contains_const:
+bool IntBuffer::Is${type._name}(const std::vector< Int32 >& array)
+{
+  try
+  {
+    ${type._name} value = ${type._name}::Parse(array);
+  }catch(...)
+  {
+    return false;
+  }
+  return true;
+};
+%endif
 
 std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data)
 {

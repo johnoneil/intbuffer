@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-26-0448PM-2013
+///@date Nov-26-0519PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -42,8 +42,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static Spin Parse(std::vector< Int32 >& array);
-  static Spin Parse(std::vector< Int32 >& array, Int32& index);
+  static Spin Parse(const std::vector< Int32 >& array);
+  static Spin Parse(const std::vector< Int32 >& array, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -60,6 +60,7 @@ private:
   std::vector< Int32 > m_Stops;
   Int32 m_Prize;
 };
+
 
 }//namespace IntBuffer
 
