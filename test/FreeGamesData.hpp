@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.hpp
-///@date Nov-26-0519PM-2013
+///@date Nov-26-0528PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -16,9 +16,7 @@ typedef int Int32;
 
 #include <vector>
 #include <iostream>
-
 #include "FreeGames.hpp"
-
 namespace IntBuffer
 {
 
@@ -27,17 +25,16 @@ class FreeGamesData
 public:
 
   FreeGamesData();
-
   ///=====================================
-  ///ThemeId
+  ///@ThemeId
   ///=====================================
   Int32 GetThemeId(void)const;
   ///=====================================
-  ///VersionId
+  ///@VersionId
   ///=====================================
   Int32 GetVersionId(void)const;
   ///=====================================
-  ///Win
+  ///@Win
   ///=====================================
   Int32 GetWin(void)const;
 	void SetWin(const Int32 value);

@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-26-0519PM-2013
+///@date Nov-26-0528PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -12,8 +12,6 @@
 #include "Spin.hpp"
 
 using namespace IntBuffer;
-
-
 
 ///=====================================
 ///Stops
@@ -56,7 +54,7 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 
 bool Spin::Write(std::vector< Int32 >& array)
 {
- Int32 index=0;
+  Int32 index=0;
   return Write(array, index);
 }
 
@@ -67,16 +65,16 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
   {
     //return false;//failed to write for lack of room
   }
-	{
-		const Int32 count = StopCount();
+  {
+    const Int32 count = StopCount();
     //As "set" is defined as a STATIC list with known number of elements
     //therefore we don't have to head it with the element count    
     //array[index++] = count;
-		for(Int32 i=0;i<count;++i)
-		{
+    for(Int32 i=0;i<count;++i)
+    {
       array[index++]=GetStop(i);
-		}
-	}
+    }
+  }
   array[index++] = m_Prize;
   return true;
 }

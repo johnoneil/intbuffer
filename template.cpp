@@ -15,7 +15,6 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 #include "${output_filename}.hpp"
 
 using namespace IntBuffer;
-
 <% contains_const = False
 for child in type._children:
   if child.__class__.__name__ == 'Integer' and child._default>=0:
@@ -35,7 +34,6 @@ ${type._name}::${type._name}()
 % endfor
   {};
 %endif
-
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
 ///=====================================
@@ -148,7 +146,7 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
 
 bool ${type._name}::Write(std::vector< Int32 >& array)
 {
- Int32 index=0;
+  Int32 index=0;
   return Write(array, index);
 }
 
@@ -166,35 +164,35 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     % if child.__class__.__name__ == 'Integer':
   array[index++] = m_${child._name};
 	  % elif child.__class__.__name__ == 'Repeated':
-	{
-		const Int32 count = ${child._element._name}Count();
+  {
+    const Int32 count = ${child._element._name}Count();
     array[index++] = count;
-		for(Int32 i=0;i<count;++i)
-		{
+    for(Int32 i=0;i<count;++i)
+    {
       % if child._element.__class__.__name__ == 'Integer':
       array[index++]=Get${child._element._name}(i);
       % else:
       Get${child._element._name}(i).Write(array, index);
       % endif
-		}
-	}
+    }
+  }
     % elif child.__class__.__name__ == 'Set':
-	{
-		const Int32 count = ${child._element._name}Count();
+  {
+    const Int32 count = ${child._element._name}Count();
     //As "set" is defined as a STATIC list with known number of elements
     //therefore we don't have to head it with the element count    
     //array[index++] = count;
-		for(Int32 i=0;i<count;++i)
-		{
+    for(Int32 i=0;i<count;++i)
+    {
       % if child._element.__class__.__name__ == 'Integer':
       array[index++]=Get${child._element._name}(i);
       % else:
       Get${child._element._name}(i).Write(array, index);
       % endif
-		}
-	}
+    }
+  }
 	  % else:
-	m_${child._name}.Write(array, index);
+  m_${child._name}.Write(array, index);
 	  % endif
 	% endfor
   return true;

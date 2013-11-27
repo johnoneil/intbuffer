@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-26-0519PM-2013
+///@date Nov-26-0528PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -16,15 +16,12 @@ typedef int Int32;
 
 #include <vector>
 #include <iostream>
-
-
 namespace IntBuffer
 {
 
 class Spin
 {
 public:
-
 
   ///=====================================
   ///Stops
@@ -34,7 +31,7 @@ public:
   void AddStop(const Int32 value);
   void ClearStops(void);
   ///=====================================
-  ///Prize
+  ///@Prize
   ///=====================================
   Int32 GetPrize(void)const;
 	void SetPrize(const Int32 value);

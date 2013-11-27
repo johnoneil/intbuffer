@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-26-0519PM-2013
+///@date Nov-26-0528PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -13,13 +13,11 @@
 
 using namespace IntBuffer;
 
-
 FreeGames::FreeGames()
 
   :m_ThemeId(2)
   ,m_VersionId(3)
   {};
-
 ///=====================================
 ///ThemeId
 ///=====================================
@@ -85,7 +83,7 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 
 bool FreeGames::Write(std::vector< Int32 >& array)
 {
- Int32 index=0;
+  Int32 index=0;
   return Write(array, index);
 }
 
@@ -100,14 +98,14 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
   array[index++] = m_ThemeId;
   array[index++] = m_VersionId;
   array[index++] = m_Win;
-	{
-		const Int32 count = SpinCount();
+  {
+    const Int32 count = SpinCount();
     array[index++] = count;
-		for(Int32 i=0;i<count;++i)
-		{
+    for(Int32 i=0;i<count;++i)
+    {
       GetSpin(i).Write(array, index);
-		}
-	}
+    }
+  }
   return true;
 }
 

@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.hpp
-///@date Nov-26-0519PM-2013
+///@date Nov-26-0528PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -16,9 +16,7 @@ typedef int Int32;
 
 #include <vector>
 #include <iostream>
-
 #include "Spin.hpp"
-
 namespace IntBuffer
 {
 
@@ -27,22 +25,21 @@ class FreeGames
 public:
 
   FreeGames();
-
   ///=====================================
-  ///ThemeId
+  ///@ThemeId
   ///=====================================
   Int32 GetThemeId(void)const;
   ///=====================================
-  ///VersionId
+  ///@VersionId
   ///=====================================
   Int32 GetVersionId(void)const;
   ///=====================================
-  ///Win
+  ///@Win
   ///=====================================
   Int32 GetWin(void)const;
 	void SetWin(const Int32 value);
   ///=====================================
-  ///Spins
+  ///@Spins
   ///=====================================
   Int32 SpinCount(void)const;
   Spin& GetSpin(const Int32 index);

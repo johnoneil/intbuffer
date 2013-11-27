@@ -19,7 +19,6 @@ typedef int Int32;
 
 #include <vector>
 #include <iostream>
-
 %for child in type._children:
   % if child.__class__.__name__ == 'Class' or child.__class__.__name__ == 'SizedClass':
 #include "${child._name}.hpp"
@@ -29,7 +28,6 @@ typedef int Int32;
     %endif
   % endif
 % endfor
-
 namespace IntBuffer
 {
 
@@ -44,11 +42,10 @@ first_const = True %>
     %if contains_const:
   ${type._name}();
     %endif
-
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
   ///=====================================
-  ///${child._name}
+  ///@${child._name}
   ///=====================================
   Int32 Get${child._name}(void)const;
     % if child._default<0:
@@ -56,7 +53,7 @@ first_const = True %>
     % endif
   % elif child.__class__.__name__ == 'Repeated':
   ///=====================================
-  ///${child._element._name}s
+  ///@${child._element._name}s
   ///=====================================
   Int32 ${child._element._name}Count(void)const;
     % if child._element.__class__.__name__ == 'Integer':
