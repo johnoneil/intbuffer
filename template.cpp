@@ -1,14 +1,14 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file ${output_filename}.cpp
+//-----------------------------------------------------------------------------
+//
+//@file ${output_filename}.cpp
 <%
 import datetime
 mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
-%>///@date ${mydate}
-///
-///----------------------------------------------------------------------------
+%>//@date ${mydate}
+//
+//-----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
 #include <stdexcept>
@@ -25,8 +25,7 @@ ${type._name}::${type._name}()
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer' and child._default>=0:
     %if first_const:
-<%first_const=False%>
-  :m_${child._name}(${child._default})
+<%first_const=False%>  :m_${child._name}(${child._default})
     %else:
   ,m_${child._name}(${child._default})
     %endif
@@ -36,17 +35,15 @@ ${type._name}::${type._name}()
 %endif
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
-///=====================================
-///${child._name}
-///=====================================
+
+///============================================================================
 Int32 ${type._name}::Get${child._name}(void)const{return m_${child._name};};
     % if child._default<0:
 void ${type._name}::Set${child._name}(const Int32 value){m_${child._name}=value;};
     % endif
   % elif child.__class__.__name__ == 'Repeated':
-///=====================================
-///${child._element._name}s
-///=====================================
+
+///============================================================================
 Int32 ${type._name}::${child._element._name}Count(void)const{return static_cast< Int32 >(m_${child._element._name}s.size());};
   % if child._element.__class__.__name__ == 'Integer':
 Int32 ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
@@ -56,8 +53,8 @@ void ${type._name}::Add${child._element._name}(const Int32 value){m_${child._ele
 void ${type._name}::Add${child._element._name}(const ${child._element._name}& value){m_${child._element._name}s.push_back(value);};
   % endif
 void ${type._name}::Clear${child._element._name}s(void){m_${child._element._name}s.clear();};
-
   % elif child.__class__.__name__ == 'Set':
+
 //==============================================================================
 Int32 ${type._name}::${child._element._name}Count(void)const{return ${child._count};};
   % if child._element.__class__.__name__ == 'Integer':
@@ -104,12 +101,18 @@ void ${type._name}::Set${child._name}(const ${child._name}& value){m_${child._na
 % endfor
 
 //==============================================================================
+//Static method that returns instance of class from buffer
+//Reccomend testing buffer before using as this may throw
+//==============================================================================
 ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
   return ${type._name}::Parse(array, index);
 }
 
+//==============================================================================
+//Static method that returns instance of class from array starting at index
+//==============================================================================
 ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   ${type._name} returnValue;
@@ -165,12 +168,18 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
 }
 
 //==============================================================================
+//Fill a buffer with data from an instance of this class.
+//Returns: false if there is not enough room to write data.
+//==============================================================================
 bool ${type._name}::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
+//Fill a buffer with data from an instance of this class from index N.
+//Returns: false if there is not enough room to write data.
 //==============================================================================
 bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 {
@@ -201,9 +210,6 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     % elif child.__class__.__name__ == 'Set':
   {
     const Int32 count = ${child._element._name}Count();
-    //As "set" is defined as a STATIC list with known number of elements
-    //therefore we don't have to head it with the element count    
-    //array[index++] = count;
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':

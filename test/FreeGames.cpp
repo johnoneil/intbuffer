@@ -1,11 +1,11 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file FreeGames.cpp
-///@date Nov-27-0647PM-2013
-///
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//
+//@file FreeGames.cpp
+//@date Nov-27-0702PM-2013
+//
+//-----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
 #include <stdexcept>
@@ -14,32 +14,29 @@
 using namespace FreeGamesBonus;
 
 FreeGames::FreeGames()
-
   :m_ThemeId(2)
   ,m_VersionId(3)
   {};
-///=====================================
-///ThemeId
-///=====================================
+
+///============================================================================
 Int32 FreeGames::GetThemeId(void)const{return m_ThemeId;};
-///=====================================
-///VersionId
-///=====================================
+
+///============================================================================
 Int32 FreeGames::GetVersionId(void)const{return m_VersionId;};
-///=====================================
-///Win
-///=====================================
+
+///============================================================================
 Int32 FreeGames::GetWin(void)const{return m_Win;};
 void FreeGames::SetWin(const Int32 value){m_Win=value;};
-///=====================================
-///Spins
-///=====================================
+
+///============================================================================
 Int32 FreeGames::SpinCount(void)const{return static_cast< Int32 >(m_Spins.size());};
   Spin& FreeGames::GetSpin(const Int32 index){return m_Spins.at(index);};
 void FreeGames::AddSpin(const Spin& value){m_Spins.push_back(value);};
 void FreeGames::ClearSpins(void){m_Spins.clear();};
 
-
+//==============================================================================
+//Static method that returns instance of class from buffer
+//Reccomend testing buffer before using as this may throw
 //==============================================================================
 FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
 {
@@ -47,6 +44,9 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
   return FreeGames::Parse(array, index);
 }
 
+//==============================================================================
+//Static method that returns instance of class from array starting at index
+//==============================================================================
 FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   FreeGames returnValue;
@@ -80,12 +80,18 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 }
 
 //==============================================================================
+//Fill a buffer with data from an instance of this class.
+//Returns: false if there is not enough room to write data.
+//==============================================================================
 bool FreeGames::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
+//Fill a buffer with data from an instance of this class from index N.
+//Returns: false if there is not enough room to write data.
 //==============================================================================
 bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 {

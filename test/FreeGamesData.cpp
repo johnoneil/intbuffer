@@ -1,11 +1,11 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file FreeGamesData.cpp
-///@date Nov-27-0647PM-2013
-///
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//
+//@file FreeGamesData.cpp
+//@date Nov-27-0702PM-2013
+//
+//-----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
 #include <stdexcept>
@@ -14,21 +14,17 @@
 using namespace FreeGamesBonus;
 
 FreeGamesData::FreeGamesData()
-
   :m_ThemeId(3)
   ,m_VersionId(4)
   {};
-///=====================================
-///ThemeId
-///=====================================
+
+///============================================================================
 Int32 FreeGamesData::GetThemeId(void)const{return m_ThemeId;};
-///=====================================
-///VersionId
-///=====================================
+
+///============================================================================
 Int32 FreeGamesData::GetVersionId(void)const{return m_VersionId;};
-///=====================================
-///Win
-///=====================================
+
+///============================================================================
 Int32 FreeGamesData::GetWin(void)const{return m_Win;};
 void FreeGamesData::SetWin(const Int32 value){m_Win=value;};
 
@@ -37,12 +33,18 @@ FreeGames& FreeGamesData::GetFreeGames(void){return m_FreeGames;};
 void FreeGamesData::SetFreeGames(const FreeGames& value){m_FreeGames=value;};
 
 //==============================================================================
+//Static method that returns instance of class from buffer
+//Reccomend testing buffer before using as this may throw
+//==============================================================================
 FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
   return FreeGamesData::Parse(array, index);
 }
 
+//==============================================================================
+//Static method that returns instance of class from array starting at index
+//==============================================================================
 FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   FreeGamesData returnValue;
@@ -68,12 +70,18 @@ FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array, Int32& ind
 }
 
 //==============================================================================
+//Fill a buffer with data from an instance of this class.
+//Returns: false if there is not enough room to write data.
+//==============================================================================
 bool FreeGamesData::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
+//Fill a buffer with data from an instance of this class from index N.
+//Returns: false if there is not enough room to write data.
 //==============================================================================
 bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
 {

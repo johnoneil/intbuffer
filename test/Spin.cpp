@@ -1,17 +1,18 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file Spin.cpp
-///@date Nov-27-0647PM-2013
-///
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//
+//@file Spin.cpp
+//@date Nov-27-0702PM-2013
+//
+//-----------------------------------------------------------------------------
 
 //#include "Pch.hpp"
 #include <stdexcept>
 #include "Spin.hpp"
 
 using namespace FreeGamesBonus;
+
 
 //==============================================================================
 Int32 Spin::StopCount(void)const{return 5;};
@@ -31,12 +32,14 @@ void Spin::SetStop(const Int32 index, const Int32 value)
   }
   m_Stops[index] = value;
 }
-///=====================================
-///Prize
-///=====================================
+
+///============================================================================
 Int32 Spin::GetPrize(void)const{return m_Prize;};
 void Spin::SetPrize(const Int32 value){m_Prize=value;};
 
+//==============================================================================
+//Static method that returns instance of class from buffer
+//Reccomend testing buffer before using as this may throw
 //==============================================================================
 Spin Spin::Parse(const std::vector< Int32 >& array)
 {
@@ -44,6 +47,9 @@ Spin Spin::Parse(const std::vector< Int32 >& array)
   return Spin::Parse(array, index);
 }
 
+//==============================================================================
+//Static method that returns instance of class from array starting at index
+//==============================================================================
 Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   Spin returnValue;
@@ -60,12 +66,18 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 }
 
 //==============================================================================
+//Fill a buffer with data from an instance of this class.
+//Returns: false if there is not enough room to write data.
+//==============================================================================
 bool Spin::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
+//Fill a buffer with data from an instance of this class from index N.
+//Returns: false if there is not enough room to write data.
 //==============================================================================
 bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 {
@@ -76,9 +88,6 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
   }
   {
     const Int32 count = StopCount();
-    //As "set" is defined as a STATIC list with known number of elements
-    //therefore we don't have to head it with the element count    
-    //array[index++] = count;
     for(Int32 i=0;i<count;++i)
     {
       array[index++]=GetStop(i);
