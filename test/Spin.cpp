@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file Spin.cpp
-//@date Nov-27-0706PM-2013
+//@date Nov-27-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 bool Spin::Write(std::vector< Int32 >& array)
 {
-  Int32 index=0;
+  Int32 index = 0;
   return Write(array, index);
 }
 
@@ -90,7 +90,7 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
     const Int32 count = StopCount();
     for(Int32 i=0;i<count;++i)
     {
-      array[index++]=GetStop(i);
+      array[index++] = GetStop(i);
     }
   }
   array[index++] = m_Prize;
@@ -102,7 +102,7 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 Int32 Spin::Size(void)const
 {
- Int32 size=0;
+ Int32 size = 0;
   {
     const Int32 count = StopCount();
     for(Int32 i=0;i<count;++i)

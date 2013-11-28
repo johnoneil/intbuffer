@@ -173,7 +173,7 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
 //==============================================================================
 bool ${type._name}::Write(std::vector< Int32 >& array)
 {
-  Int32 index=0;
+  Int32 index = 0;
   return Write(array, index);
 }
 
@@ -189,7 +189,7 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     return false;//failed to write for lack of room
   }
   %if type.__class__.__name__ == 'SizedClass':
-  array[index++]=size;
+  array[index++] = size;
   %endif
   % for child in type._children:
     % if child.__class__.__name__ == 'Integer':
@@ -201,7 +201,7 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-      array[index++]=Get${child._element._name}(i);
+      array[index++] = Get${child._element._name}(i);
       % else:
       Get${child._element._name}(i).Write(array, index);
       % endif
@@ -213,7 +213,7 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-      array[index++]=Get${child._element._name}(i);
+      array[index++] = Get${child._element._name}(i);
       % else:
       Get${child._element._name}(i).Write(array, index);
       % endif
@@ -231,7 +231,7 @@ bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 Int32 ${type._name}::Size(void)const
 {
- Int32 size=0;
+ Int32 size = 0;
   %if type.__class__.__name__ == 'SizedClass':
   size++;//sized class header
   %endif

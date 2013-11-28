@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGames.cpp
-//@date Nov-27-0706PM-2013
+//@date Nov-27-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 bool FreeGames::Write(std::vector< Int32 >& array)
 {
-  Int32 index=0;
+  Int32 index = 0;
   return Write(array, index);
 }
 
@@ -100,7 +100,7 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
   {
     return false;//failed to write for lack of room
   }
-  array[index++]=size;
+  array[index++] = size;
   array[index++] = m_ThemeId;
   array[index++] = m_VersionId;
   array[index++] = m_Win;
@@ -120,7 +120,7 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 Int32 FreeGames::Size(void)const
 {
- Int32 size=0;
+ Int32 size = 0;
   size++;//sized class header
   ++size;//ThemeId
   ++size;//VersionId
