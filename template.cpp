@@ -49,7 +49,7 @@ Int32 ${type._name}::${child._element._name}Count(void)const{return static_cast<
 Int32 ${type._name}::Get${child._element._name}(const Int32 index)const{return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const Int32 value){m_${child._element._name}s.push_back(value);};
   % else:
-  ${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index){return m_${child._element._name}s.at(index);};
+${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index){return m_${child._element._name}s.at(index);};
 void ${type._name}::Add${child._element._name}(const ${child._element._name}& value){m_${child._element._name}s.push_back(value);};
   % endif
 void ${type._name}::Clear${child._element._name}s(void){m_${child._element._name}s.clear();};

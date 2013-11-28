@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGames.cpp
-//@date Nov-27-0702PM-2013
+//@date Nov-27-0706PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ void FreeGames::SetWin(const Int32 value){m_Win=value;};
 
 ///============================================================================
 Int32 FreeGames::SpinCount(void)const{return static_cast< Int32 >(m_Spins.size());};
-  Spin& FreeGames::GetSpin(const Int32 index){return m_Spins.at(index);};
+Spin& FreeGames::GetSpin(const Int32 index){return m_Spins.at(index);};
 void FreeGames::AddSpin(const Spin& value){m_Spins.push_back(value);};
 void FreeGames::ClearSpins(void){m_Spins.clear();};
 
