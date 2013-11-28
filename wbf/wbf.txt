@@ -1,0 +1,112 @@
+#------------------------------------------------------------------------------
+# WBF EDC Output format
+#------------------------------------------------------------------------------
+
+#settings
+namespace = wbf
+use_radix_gameevents = true
+
+#------------------------------------------------------------------------------
+SECTION BaseGame
+	ThemeId 4
+	FormatId 1
+	TotalPrize
+	ReelSetId
+	Overlays
+
+#------------------------------------------------------------------------------
+SECTION FreeGamesBonus
+	ThemeId 2
+	FormatId 1
+	TotalPrize
+	NumberOfObjects 1
+	InitialSpin
+	Overlays
+	FreeGames
+
+#------------------------------------------------------------------------------
+SECTION FastFireBonus
+	ThemeId 2
+	FormatId 1
+	TotalPrize
+	NumberOfObjects 1
+	InitialSpin
+	Overlays
+	FreeGames
+
+#------------------------------------------------------------------------------
+SECTION Overlays
+	HeaderId
+	ThemeId 2
+	FormatId 5
+	VersionId 1
+	TotalPrize
+	REPEATED OverlaySymbol
+
+#------------------------------------------------------------------------------
+OverlaySymbol
+	HeaderId
+	OverlaySymbolId
+	5 OverlayPosition
+
+#------------------------------------------------------------------------------
+OverlayPosition
+	REPEATED ReelIndex
+
+#------------------------------------------------------------------------------
+SECTION InitialSpin
+	HeaderId 0
+	ThemeId 2
+	FormatId 1
+	VersionId 3
+	TotalPrize
+	REPEATED TriggeringSpin
+
+#------------------------------------------------------------------------------
+TriggeringSpin
+	HeaderId 0
+	SpinPrize
+	SpinType
+	FreeGamesAwarded
+	Multiplier
+	SymbolMapperIndex
+	5 ReelStop
+	REPEATED Modifier
+	PaylineDataPresent
+	REPEATED Payline
+
+#------------------------------------------------------------------------------
+Modifier
+	SymbolIndex
+	REPEATED Location
+
+#------------------------------------------------------------------------------
+Payline
+	Index
+	Mask
+	WinAmount
+	WinId
+
+#------------------------------------------------------------------------------
+SECTION FreeGames
+	HeaderId 1
+	ThemeId 2
+	FormatId 1
+	VersionId 3
+	TotalPrize
+	REPEATED FiredUpSpin
+
+#------------------------------------------------------------------------------
+FiredUpSpin
+	HeaderId 1
+	SpinPrize
+	SpinType
+	FreeGamesAwarded
+	Multiplier
+	SymbolMapperIndex
+	5 ReelStop
+	REPEATED Modifier
+	PaylineDataPresent
+	REPEATED Payline	
+
+
