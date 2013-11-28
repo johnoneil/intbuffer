@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGames.cpp
-//@date Nov-27-0715PM-2013
+//@date Nov-27-0719PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ void FreeGames::ClearSpins(void){m_Spins.clear();};
 //==============================================================================
 FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
 {
- Int32 index=0;
+  Int32 index = 0;
   return FreeGames::Parse(array, index);
 }
 
@@ -50,7 +50,7 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
 FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   FreeGames returnValue;
-  	const Int32 size=array[index++];
+  const Int32 size=array[index++];
   if(static_cast<Int32>(array.size())-index+1<size)
   {
     //not enough array for whole class. throw.

@@ -106,7 +106,7 @@ void ${type._name}::Set${child._name}(const ${child._name}& value){m_${child._na
 //==============================================================================
 ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array)
 {
- Int32 index=0;
+  Int32 index = 0;
   return ${type._name}::Parse(array, index);
 }
 
@@ -117,7 +117,7 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
 {
   ${type._name} returnValue;
   %if type.__class__.__name__=='SizedClass':
-  	const Int32 size=array[index++];
+  const Int32 size=array[index++];
   if(static_cast<Int32>(array.size())-index+1<size)
   {
     //not enough array for whole class. throw.
@@ -161,7 +161,7 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
     }
   }
 	  % else:
-	returnValue.m_${child._name}= ${child._name}::Parse(array, index);
+  returnValue.m_${child._name}= ${child._name}::Parse(array, index);
 	  % endif
 	% endfor
   return returnValue;
