@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-27-0640PM-2013
+///@date Nov-27-0647PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -78,9 +78,9 @@ bool FreeGamesData::Write(std::vector< Int32 >& array)
 bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
-  //if(static_cast<Int32>(array.size())-index<size)
+  if(static_cast<Int32>(array.size())-index<size)
   {
-    //return false;//failed to write for lack of room
+    return false;//failed to write for lack of room
   }
   array[index++]=size;
   array[index++] = m_ThemeId;

@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-27-0640PM-2013
+///@date Nov-27-0647PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -52,7 +52,6 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
     for(Int32 i=0;i<count;++i)
     {
       Int32 value= array[index++];
-      //returnValue.m_Stops.push_back(value);
       returnValue.SetStop(i, value);
     }
   }
@@ -71,9 +70,9 @@ bool Spin::Write(std::vector< Int32 >& array)
 bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
-  //if(static_cast<Int32>(array.size())-index<size)
+  if(static_cast<Int32>(array.size())-index<size)
   {
-    //return false;//failed to write for lack of room
+    return false;//failed to write for lack of room
   }
   {
     const Int32 count = StopCount();

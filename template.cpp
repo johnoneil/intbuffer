@@ -175,9 +175,9 @@ bool ${type._name}::Write(std::vector< Int32 >& array)
 bool ${type._name}::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
-  //if(static_cast<Int32>(array.size())-index<size)
+  if(static_cast<Int32>(array.size())-index<size)
   {
-    //return false;//failed to write for lack of room
+    return false;//failed to write for lack of room
   }
   %if type.__class__.__name__ == 'SizedClass':
   array[index++]=size;
