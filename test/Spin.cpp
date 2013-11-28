@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-27-0609PM-2013
+///@date Nov-27-0640PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -13,22 +13,31 @@
 
 using namespace FreeGamesBonus;
 
-///=====================================
-///Stops
-///=====================================
+//==============================================================================
 Int32 Spin::StopCount(void)const{return 5;};
-Int32 Spin::GetStop(const Int32 index)const{return m_Stops.at(index);};
-void Spin::AddStop(const Int32 value){m_Stops.push_back(value);};
-void Spin::ClearStops(void){m_Stops.clear();};
+Int32 Spin::GetStop(const Int32 index)const
+{
+  if(index<0||index>=StopCount())
+  {
+    return -1;//there's a chance -1 is not adequate. but I don't want to throw.
+  }
+  return m_Stops[index];
+}
+void Spin::SetStop(const Int32 index, const Int32 value)
+{
+  if(index<0||index>=StopCount())
+  {
+    return;//I don't want to throw.
+  }
+  m_Stops[index] = value;
+}
 ///=====================================
 ///Prize
 ///=====================================
 Int32 Spin::GetPrize(void)const{return m_Prize;};
 void Spin::SetPrize(const Int32 value){m_Prize=value;};
 
-///=====================================
-///Fill structure from integer array
-///=====================================
+//==============================================================================
 Spin Spin::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
@@ -39,25 +48,26 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   Spin returnValue;
   {
-    //This is a set
-    returnValue.m_Stops.clear();
     const Int32 count=5;
     for(Int32 i=0;i<count;++i)
     {
-     Int32 value= array[index++];
-      returnValue.m_Stops.push_back(value);
+      Int32 value= array[index++];
+      //returnValue.m_Stops.push_back(value);
+      returnValue.SetStop(i, value);
     }
   }
   returnValue.m_Prize=array[index++];
   return returnValue;
 }
 
+//==============================================================================
 bool Spin::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
 bool Spin::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
@@ -79,9 +89,9 @@ bool Spin::Write(std::vector< Int32 >& array, Int32& index)
   return true;
 }
 
-//
+//==============================================================================
 // Get the size of this class in 32 bit integers
-//
+//==============================================================================
 Int32 Spin::Size(void)const
 {
  Int32 size=0;
@@ -97,6 +107,9 @@ Int32 Spin::Size(void)const
 }
 
 
+//==============================================================================
+//Helper to dump class to std::stream for debugging etc.
+//==============================================================================
 std::ostream& operator<<(std::ostream &out, FreeGamesBonus::Spin& data)
 {
   for(Int32 i=0;i<data.StopCount();++i)

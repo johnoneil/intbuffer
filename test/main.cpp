@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 		const Int32 reelCount=spin.StopCount();
 		for(Int32 stop=0;stop<reelCount;++stop)
 		{
-			spin.AddStop(stop);
+			spin.SetStop(stop,stop);
 		}
 		spin.SetPrize(300);
 		freegames.AddSpin(spin);

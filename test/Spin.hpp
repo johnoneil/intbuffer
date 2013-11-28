@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-27-0609PM-2013
+///@date Nov-27-0640PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -24,14 +24,13 @@ class Spin
 public:
 
   ///=====================================
-  ///Stops
+  ///@brief member Stops
   ///=====================================
   Int32 StopCount(void)const;
   Int32 GetStop(const Int32 index)const;
-  void AddStop(const Int32 value);
-  void ClearStops(void);
+  void SetStop(const Int32 index, const Int32 value);
   ///=====================================
-  ///@Prize
+  ///@brief member Prize
   ///=====================================
   Int32 GetPrize(void)const;
   void SetPrize(const Int32 value);
@@ -54,7 +53,7 @@ public:
   Int32  Size(void)const;
 
 private:
-  std::vector< Int32 > m_Stops;
+  Int32 m_Stops[5];
   Int32 m_Prize;
 };
 

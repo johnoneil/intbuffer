@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-27-0609PM-2013
+///@date Nov-27-0640PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -40,9 +40,7 @@ void FreeGames::AddSpin(const Spin& value){m_Spins.push_back(value);};
 void FreeGames::ClearSpins(void){m_Spins.clear();};
 
 
-///=====================================
-///Fill structure from integer array
-///=====================================
+//==============================================================================
 FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
@@ -81,12 +79,14 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
   return returnValue;
 }
 
+//==============================================================================
 bool FreeGames::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
 bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
@@ -109,9 +109,9 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
   return true;
 }
 
-//
+//==============================================================================
 // Get the size of this class in 32 bit integers
-//
+//==============================================================================
 Int32 FreeGames::Size(void)const
 {
  Int32 size=0;
@@ -128,6 +128,9 @@ Int32 FreeGames::Size(void)const
   return size;
 }
 
+//==============================================================================
+//Helper to test if the contents of a buffer match the pattern for this class
+//==============================================================================
 bool FreeGamesBonus::IsFreeGames(const std::vector< Int32 >& array)
 {
   try
@@ -140,6 +143,9 @@ bool FreeGamesBonus::IsFreeGames(const std::vector< Int32 >& array)
   return true;
 };
 
+//==============================================================================
+//Helper to dump class to std::stream for debugging etc.
+//==============================================================================
 std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGames& data)
 {
   out<<"ThemeId:"<<data.GetThemeId()<<std::endl;

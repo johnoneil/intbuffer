@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.cpp
-///@date Nov-27-0609PM-2013
+///@date Nov-27-0640PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -31,15 +31,12 @@ Int32 FreeGamesData::GetVersionId(void)const{return m_VersionId;};
 ///=====================================
 Int32 FreeGamesData::GetWin(void)const{return m_Win;};
 void FreeGamesData::SetWin(const Int32 value){m_Win=value;};
-///=====================================
-///FreeGames
-///=====================================
+
+//==============================================================================
 FreeGames& FreeGamesData::GetFreeGames(void){return m_FreeGames;};
 void FreeGamesData::SetFreeGames(const FreeGames& value){m_FreeGames=value;};
 
-///=====================================
-///Fill structure from integer array
-///=====================================
+//==============================================================================
 FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array)
 {
  Int32 index=0;
@@ -70,12 +67,14 @@ FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array, Int32& ind
   return returnValue;
 }
 
+//==============================================================================
 bool FreeGamesData::Write(std::vector< Int32 >& array)
 {
   Int32 index=0;
   return Write(array, index);
 }
 
+//==============================================================================
 bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
@@ -91,9 +90,9 @@ bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
   return true;
 }
 
-//
+//==============================================================================
 // Get the size of this class in 32 bit integers
-//
+//==============================================================================
 Int32 FreeGamesData::Size(void)const
 {
  Int32 size=0;
@@ -105,6 +104,9 @@ Int32 FreeGamesData::Size(void)const
   return size;
 }
 
+//==============================================================================
+//Helper to test if the contents of a buffer match the pattern for this class
+//==============================================================================
 bool FreeGamesBonus::IsFreeGamesData(const std::vector< Int32 >& array)
 {
   try
@@ -117,6 +119,9 @@ bool FreeGamesBonus::IsFreeGamesData(const std::vector< Int32 >& array)
   return true;
 };
 
+//==============================================================================
+//Helper to dump class to std::stream for debugging etc.
+//==============================================================================
 std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGamesData& data)
 {
   out<<"ThemeId:"<<data.GetThemeId()<<std::endl;

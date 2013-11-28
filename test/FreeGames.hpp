@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.hpp
-///@date Nov-27-0609PM-2013
+///@date Nov-27-0640PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -26,20 +26,20 @@ public:
 
   FreeGames();
   ///=====================================
-  ///@ThemeId
+  ///@brief member ThemeId
   ///=====================================
   Int32 GetThemeId(void)const;
   ///=====================================
-  ///@VersionId
+  ///@brief member VersionId
   ///=====================================
   Int32 GetVersionId(void)const;
   ///=====================================
-  ///@Win
+  ///@brief member Win
   ///=====================================
   Int32 GetWin(void)const;
   void SetWin(const Int32 value);
   ///=====================================
-  ///@Spins
+  ///@brief memberSpins
   ///=====================================
   Int32 SpinCount(void)const;
   Spin& GetSpin(const Int32 index);

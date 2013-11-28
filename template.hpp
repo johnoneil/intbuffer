@@ -48,7 +48,7 @@ first_const = True %>
 % for child in type._children:
 	% if child.__class__.__name__ == 'Integer':
   ///=====================================
-  ///@${child._name}
+  ///@brief member ${child._name}
   ///=====================================
   Int32 Get${child._name}(void)const;
     % if child._default<0:
@@ -56,7 +56,7 @@ first_const = True %>
     % endif
   % elif child.__class__.__name__ == 'Repeated':
   ///=====================================
-  ///@${child._element._name}s
+  ///@brief member${child._element._name}s
   ///=====================================
   Int32 ${child._element._name}Count(void)const;
     % if child._element.__class__.__name__ == 'Integer':
@@ -70,20 +70,19 @@ first_const = True %>
   
   % elif child.__class__.__name__ == 'Set':
   ///=====================================
-  ///${child._element._name}s
+  ///@brief member ${child._element._name}s
   ///=====================================
   Int32 ${child._element._name}Count(void)const;
     % if child._element.__class__.__name__ == 'Integer':
   Int32 Get${child._element._name}(const Int32 index)const;
-  void Add${child._element._name}(const Int32 value);
+  void Set${child._element._name}(const Int32 index, const Int32 value);
     % else:
   ${child._element._name}& Get${child._element._name}(const Int32 index);
-  void Add${child._element._name}(const ${child._element._name}& value);
+  void Set${child._element._name}(const Int32 index, const ${child._element._name}& value);
     % endif
-  void Clear${child._element._name}s(void);
 	% else:
   ///=====================================
-  ///${child._name}
+  ///@brief member ${child._name}
   ///=====================================
   ${child._name}& Get${child._name}(void);
   void Set${child._name}(const ${child._name}& value);
@@ -125,9 +124,9 @@ private:
      % endif
   % elif child.__class__.__name__ == 'Set':
      % if child._element.__class__.__name__ == 'Integer':
-  std::vector< Int32 > m_${child._element._name}s;
+  Int32 m_${child._element._name}s[${child._count}];
      % else:
-  std::vector<${child._element._name}> m_${child._element._name}s;
+  Int32 m_${child._element._name}s[${child._count}];
      % endif
 	% else:
   ${child._name} m_${child._name};
