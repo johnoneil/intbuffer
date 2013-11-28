@@ -13,9 +13,12 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 typedef int Int32;
 
 #pragma once
-<% ifdef_filename = output_filename.upper() %>
-#ifndef __INTBUFFER_${ifdef_filename}_HPP__
-#define __INTBUFFER_${ifdef_filename}_HPP__
+<%
+  ifdef_filename = output_filename.upper() 
+  ifdef_namespace = settings['namespace'].upper()
+%>
+#ifndef __${ifdef_namespace}_${ifdef_filename}_HPP__
+#define __${ifdef_namespace}_${ifdef_filename}_HPP__
 
 #include <vector>
 #include <iostream>
@@ -28,7 +31,7 @@ typedef int Int32;
     %endif
   % endif
 % endfor
-namespace ${namespace}
+namespace ${settings['namespace']}
 {
 
 class ${type._name}
@@ -140,9 +143,9 @@ private:
 bool Is${type._name}(const std::vector< Int32 >& array);
 %endif
 
-}//namespace ${namespace}
+}//namespace ${settings['namespace']}
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data);
+std::ostream& operator<<(std::ostream &out, ${settings['namespace']}::${type._name}& data);
 
 #endif

@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.cpp
-///@date Nov-27-0303AM-2013
+///@date Nov-27-0609PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include "Spin.hpp"
 
-using namespace IntBuffer;
+using namespace FreeGamesBonus;
 
 ///=====================================
 ///Stops
@@ -97,7 +97,7 @@ Int32 Spin::Size(void)const
 }
 
 
-std::ostream& operator<<(std::ostream &out, IntBuffer::Spin& data)
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::Spin& data)
 {
   for(Int32 i=0;i<data.StopCount();++i)
   {

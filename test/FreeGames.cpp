@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGames.cpp
-///@date Nov-27-0303AM-2013
+///@date Nov-27-0609PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include "FreeGames.hpp"
 
-using namespace IntBuffer;
+using namespace FreeGamesBonus;
 
 FreeGames::FreeGames()
 
@@ -128,7 +128,7 @@ Int32 FreeGames::Size(void)const
   return size;
 }
 
-bool IntBuffer::IsFreeGames(const std::vector< Int32 >& array)
+bool FreeGamesBonus::IsFreeGames(const std::vector< Int32 >& array)
 {
   try
   {
@@ -140,7 +140,7 @@ bool IntBuffer::IsFreeGames(const std::vector< Int32 >& array)
   return true;
 };
 
-std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGames& data)
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGames& data)
 {
   out<<"ThemeId:"<<data.GetThemeId()<<std::endl;
   out<<"VersionId:"<<data.GetVersionId()<<std::endl;

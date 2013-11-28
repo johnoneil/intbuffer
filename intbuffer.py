@@ -16,6 +16,10 @@ import argparse
 import os
 from mako.template import Template
 
+#settings picked up from config file
+settings = {'namespace':'IntBuffer',
+            'use_radix_gameevents':'false'}
+
 def is_number(s):
   '''
   Determine if input argument can be interpreted as a number (float) or not
@@ -72,12 +76,18 @@ class Set(object):
     self._element=element
     self._count=count
 
-def generate_output(input_file, output_filename):
+def generate_output(input_file):
   #go line by line and build structure based on contents
   classes = []
   for i,line in enumerate(input_file):
     #remove comments
     line=line.split("#")[0]
+    
+    #pass settings line to settings array
+    if "=" in line:
+      add_setting(line)
+      continue
+
     #count the indents at the head of line
     indent = len(line) - len(line.lstrip())
     line=line.lstrip()
@@ -91,11 +101,20 @@ def generate_output(input_file, output_filename):
     elif len(classes)>0:
       classes[-1][-1].append(line)
 
-  #print str(classes)
-
   #TODO: check for duplicate top level classes
   #TODO: check for circular class references
-  generate_code(classes, output_filename)
+  generate_code(classes)
+
+def add_setting(line):
+  '''
+  Take a line from input configuration file and extract settings info.
+  Store the settings info in this module's dictionary
+  '''
+  global settings
+  setting, value = line.split('=',1)
+  setting = setting.strip().lower()
+  value = value.strip() #we don't take lowercase values. we can do so later if desired.
+  settings[setting]=value
 
 def is_top_level_class(classname, classes):
   for c in classes:
@@ -103,7 +122,7 @@ def is_top_level_class(classname, classes):
       return True
   return False
 
-def generate_code(classes, namespace):
+def generate_code(classes):
   code=[]
   for c in classes:
     current_class=code_from_line(c[0], classes)
@@ -111,17 +130,20 @@ def generate_code(classes, namespace):
       current_class.AddChild(code_from_line(child, classes))
     code.append(current_class)
 
-  render_from_templates(code, namespace)
+  render_from_templates(code)
 
-def render_from_templates(code, namespace):
+def render_from_templates(code):
   #using __file__ to locate templates relative to this module
+  global settings
   absolute_path=os.path.abspath(__file__)
   current_directory=os.path.dirname(absolute_path)
   hpp_template = Template(filename=os.path.join(current_directory,'template.hpp'))
   cpp_template = Template(filename=os.path.join(current_directory,'template.cpp'))
   for top_level_class in code:
     filename=top_level_class._name
-    mydata={'type':top_level_class,'output_filename':filename,'namespace':namespace}
+    mydata={'type':top_level_class,
+            'output_filename':filename,
+            'settings': settings}
     with open(filename+'.hpp','w') as hpp:
       hpp.write(hpp_template.render(**mydata))
     with open(filename+'.cpp','w') as cpp:
@@ -150,23 +172,21 @@ def code_from_line(line, classes):
     return Integer(first_word,default=int(remaining_words))
 
 
-def generate_output_from_filenames(input_filename, namespace):
+def generate_output_from_filenames(input_filename):
   if not os.path.isfile(input_filename):
     print 'Could not find input file ' + input_filename
     return
   file = open(input_filename)
-  return generate_output(file, namespace)
+  return generate_output(file)
 
 
 def main():
   parser = argparse.ArgumentParser(description='Generate Integer buffer support code from domain specific text description of structure.')
   parser.add_argument('infile', help='Input domain specific text description of C++ structures to generate.')
   parser.add_argument('-v','--verbose', help='Verbose operation. Print status messages during processing', action="store_true")
-  parser.add_argument('--namespace', help='Namespace to wrap generated code', default='IntBuffer')
   args = parser.parse_args()
 
   infile = args.infile
-  namespace = args.namespace
 
   if args.verbose:
     print '''******************************************************************************
@@ -177,9 +197,8 @@ Sat Nov 23rd, 2013
 ******************************************************************************
 '''
     print 'Generating files via input file '+infile
-    print 'Generated classes will be in namespace ' + namespace
 
-  generate_output_from_filenames(infile, namespace)
+  generate_output_from_filenames(infile)
 
 if __name__ == '__main__':
   main()

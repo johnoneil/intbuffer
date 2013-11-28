@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file FreeGamesData.hpp
-///@date Nov-27-0303AM-2013
+///@date Nov-27-0609PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -11,13 +11,13 @@ typedef int Int32;
 
 #pragma once
 
-#ifndef __INTBUFFER_FREEGAMESDATA_HPP__
-#define __INTBUFFER_FREEGAMESDATA_HPP__
+#ifndef __FREEGAMESBONUS_FREEGAMESDATA_HPP__
+#define __FREEGAMESBONUS_FREEGAMESDATA_HPP__
 
 #include <vector>
 #include <iostream>
 #include "FreeGames.hpp"
-namespace IntBuffer
+namespace FreeGamesBonus
 {
 
 class FreeGamesData
@@ -78,9 +78,9 @@ private:
 ///
 bool IsFreeGamesData(const std::vector< Int32 >& array);
 
-}//namespace IntBuffer
+}//namespace FreeGamesBonus
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGamesData& data);
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGamesData& data);
 
 #endif

@@ -21,13 +21,13 @@ int main(int argc, char* argv[])
 	const Int32 win=3000;
 	const Int32 numFreeSpins=10;
 	
-	IntBuffer::FreeGamesData data;
+	FreeGamesBonus::FreeGamesData data;
 	data.SetWin(win);
-	IntBuffer::FreeGames& freegames = data.GetFreeGames();
+	FreeGamesBonus::FreeGames& freegames = data.GetFreeGames();
 	freegames.SetWin(win);
 	for(Int32 s=0;s<numFreeSpins;++s)
 	{
-		IntBuffer::Spin spin;
+		FreeGamesBonus::Spin spin;
 		const Int32 reelCount=spin.StopCount();
 		for(Int32 stop=0;stop<reelCount;++stop)
 		{
@@ -50,15 +50,15 @@ int main(int argc, char* argv[])
 	cout<<"--------------------------------------"<<endl;
 
 	//try to see what kind of data is in the buffer
-	if(IntBuffer::IsFreeGames(buffer))
+	if(FreeGamesBonus::IsFreeGames(buffer))
 	{
 		cout<<"This is freegames!"<<endl;
 	}
-	if(IntBuffer::IsFreeGamesData(buffer))
+	if(FreeGamesBonus::IsFreeGamesData(buffer))
 	{
 		cout<<"This is freegamesData!"<<endl;
 		//Read buffer data into another instance of class
-		IntBuffer::FreeGamesData readData=IntBuffer::FreeGamesData::Parse(buffer);
+		FreeGamesBonus::FreeGamesData readData=FreeGamesBonus::FreeGamesData::Parse(buffer);
 
 		//Dump contents of class to screen.
 		cout<<"--------------------------------------"<<endl;

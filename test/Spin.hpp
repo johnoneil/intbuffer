@@ -3,7 +3,7 @@
 ///----------------------------------------------------------------------------
 ///
 ///@file Spin.hpp
-///@date Nov-27-0303AM-2013
+///@date Nov-27-0609PM-2013
 ///
 ///----------------------------------------------------------------------------
 
@@ -11,12 +11,12 @@ typedef int Int32;
 
 #pragma once
 
-#ifndef __INTBUFFER_SPIN_HPP__
-#define __INTBUFFER_SPIN_HPP__
+#ifndef __FREEGAMESBONUS_SPIN_HPP__
+#define __FREEGAMESBONUS_SPIN_HPP__
 
 #include <vector>
 #include <iostream>
-namespace IntBuffer
+namespace FreeGamesBonus
 {
 
 class Spin
@@ -59,9 +59,9 @@ private:
 };
 
 
-}//namespace IntBuffer
+}//namespace FreeGamesBonus
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, IntBuffer::Spin& data);
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::Spin& data);
 
 #endif

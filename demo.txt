@@ -8,6 +8,13 @@
 #First, comments are anything following an octothorpe(hash).
 #comments can follow non comments on the same line, but there's no 'in line'.
 
+#we can also specify tool settings by using X = Y notation on non-commented lines
+#spacing for settings ought not matter, neither does case.
+#You can define any settings you want but only the following are picked up at present
+
+namespace = FreeGamesBonus
+use_radix_gameevents = true
+
 #Second, in this file we can define Parents and children
 #Parents correspond to generated C++ classes, and children to class members.
 

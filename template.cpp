@@ -14,7 +14,7 @@ mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 #include <stdexcept>
 #include "${output_filename}.hpp"
 
-using namespace ${namespace};
+using namespace ${settings['namespace']};
 <% contains_const = False
 for child in type._children:
   if child.__class__.__name__ == 'Integer' and child._default>=0:
@@ -241,7 +241,7 @@ Int32 ${type._name}::Size(void)const
 }
 
 %if contains_const:
-bool ${namespace}::Is${type._name}(const std::vector< Int32 >& array)
+bool ${settings['namespace']}::Is${type._name}(const std::vector< Int32 >& array)
 {
   try
   {
@@ -254,7 +254,7 @@ bool ${namespace}::Is${type._name}(const std::vector< Int32 >& array)
 };
 %endif
 
-std::ostream& operator<<(std::ostream &out, IntBuffer::${type._name}& data)
+std::ostream& operator<<(std::ostream &out, ${settings['namespace']}::${type._name}& data)
 {
 % for child in type._children:
   % if child.__class__.__name__ == 'Integer':

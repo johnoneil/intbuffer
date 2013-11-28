@@ -4,7 +4,11 @@
 #Thursday, Nov 21st 2013
 #------------------------------------------------------------------------------
 
+#settings
+namespace = FreeGamesBonus
+use_radix_gameevents = true
 
+#------------------------------------------------------------------------------
 SECTION FreeGamesData
 	ThemeId 3
 	VersionId 4
