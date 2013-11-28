@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGamesData.cpp
-//@date Nov-27-0719PM-2013
+//@date Nov-27-0723PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ FreeGamesData FreeGamesData::Parse(const std::vector< Int32 >& array, Int32& ind
     throw std::runtime_error("FreeGamesData cannot be generated from buffer due to incorrect value of m_VersionId");
   }
   returnValue.m_Win=array[index++];
-  returnValue.m_FreeGames= FreeGames::Parse(array, index);
+  returnValue.m_FreeGames = FreeGames::Parse(array, index);
   return returnValue;
 }
 
@@ -104,7 +104,7 @@ bool FreeGamesData::Write(std::vector< Int32 >& array, Int32& index)
 Int32 FreeGamesData::Size(void)const
 {
  Int32 size = 0;
-  size++;//sized class header
+  ++size;//sized class header
   ++size;//ThemeId
   ++size;//VersionId
   ++size;//Win

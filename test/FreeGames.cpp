@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGames.cpp
-//@date Nov-27-0719PM-2013
+//@date Nov-27-0723PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
   returnValue.m_Win=array[index++];
   {
     returnValue.m_Spins.clear();
-    const Int32 count=array[index++];
+    const Int32 count = array[index++];
     for(Int32 i=0;i<count;++i)
     {
       Spin value= Spin::Parse(array, index);
@@ -121,7 +121,7 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 Int32 FreeGames::Size(void)const
 {
  Int32 size = 0;
-  size++;//sized class header
+  ++size;//sized class header
   ++size;//ThemeId
   ++size;//VersionId
   ++size;//Win

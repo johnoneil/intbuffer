@@ -136,11 +136,11 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
     % elif child.__class__.__name__ == 'Repeated':
   {
     returnValue.m_${child._element._name}s.clear();
-    const Int32 count=array[index++];
+    const Int32 count = array[index++];
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-     Int32 value= array[index++];
+     Int32 value = array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
@@ -149,11 +149,11 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
   }
     % elif child.__class__.__name__ == 'Set':
   {
-    const Int32 count=${child._count};
+    const Int32 count = ${child._count};
     for(Int32 i=0;i<count;++i)
     {
       % if child._element.__class__.__name__ == 'Integer':
-      Int32 value= array[index++];
+      Int32 value = array[index++];
       % else:
       ${child._element._name} value= ${child._element._name}::Parse(array, index);
       % endif
@@ -161,7 +161,7 @@ ${type._name} ${type._name}::Parse(const std::vector< Int32 >& array, Int32& ind
     }
   }
 	  % else:
-  returnValue.m_${child._name}= ${child._name}::Parse(array, index);
+  returnValue.m_${child._name} = ${child._name}::Parse(array, index);
 	  % endif
 	% endfor
   return returnValue;
@@ -233,7 +233,7 @@ Int32 ${type._name}::Size(void)const
 {
  Int32 size = 0;
   %if type.__class__.__name__ == 'SizedClass':
-  size++;//sized class header
+  ++size;//sized class header
   %endif
   % for child in type._children:
   % if child.__class__.__name__ == 'Integer':

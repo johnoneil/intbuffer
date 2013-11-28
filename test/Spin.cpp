@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file Spin.cpp
-//@date Nov-27-0719PM-2013
+//@date Nov-27-0723PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -54,10 +54,10 @@ Spin Spin::Parse(const std::vector< Int32 >& array, Int32& index)
 {
   Spin returnValue;
   {
-    const Int32 count=5;
+    const Int32 count = 5;
     for(Int32 i=0;i<count;++i)
     {
-      Int32 value= array[index++];
+      Int32 value = array[index++];
       returnValue.SetStop(i, value);
     }
   }
