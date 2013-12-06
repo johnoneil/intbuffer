@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file TriggeringSpin.hpp
-//@date Dec-05-0506PM-2013
+//@date Dec-05-0715PM-2013
 //
 //This file generated via intbuffer tool
 //Search Confluence online for description.
@@ -16,7 +16,7 @@
 #include <vector>
 #include <iostream>
 #include "Modifier.hpp"
-#include "Payline.hpp"
+#include "PaylineDataPresent.hpp"
 namespace wbf
 {
 
@@ -24,11 +24,11 @@ class TriggeringSpin
 {
 public:
 
-  TriggeringSpin();
   ///=====================================
   ///@brief member HeaderId
   ///=====================================
   Int32 GetHeaderId(void)const;
+  void SetHeaderId(const Int32 value);
   ///=====================================
   ///@brief member SpinPrize
   ///=====================================
@@ -69,17 +69,12 @@ public:
   void ClearModifiers(void);
   
   ///=====================================
-  ///@brief member PaylineDataPresent
+  ///@brief memberPaylineDataPresents
   ///=====================================
-  Int32 GetPaylineDataPresent(void)const;
-  void SetPaylineDataPresent(const Int32 value);
-  ///=====================================
-  ///@brief memberPaylines
-  ///=====================================
-  Int32 PaylineCount(void)const;
-  Payline& GetPayline(const Int32 index);
-  void AddPayline(const Payline& value);
-  void ClearPaylines(void);
+  Int32 PaylineDataPresentCount(void)const;
+  PaylineDataPresent& GetPaylineDataPresent(const Int32 index);
+  void AddPaylineDataPresent(const PaylineDataPresent& value);
+  void ClearPaylineDataPresents(void);
   
 
   ///=====================================
@@ -100,8 +95,6 @@ public:
   Int32  Size(void)const;
 
 private:
-  //can't make member const as it disabled compiler generated assignment operator
-  //We'll have to settle for disabling the Setter and initializing it 
   Int32 m_HeaderId;
   Int32 m_SpinPrize;
   Int32 m_SpinType;
@@ -110,15 +103,9 @@ private:
   Int32 m_SymbolMapperIndex;
   Int32 m_ReelStops[5];
   std::vector<Modifier> m_Modifiers;
-  Int32 m_PaylineDataPresent;
-  std::vector<Payline> m_Paylines;
+  std::vector<PaylineDataPresent> m_PaylineDataPresents;
 };
 
-///
-///@brief Helper to see if a given buffer satisfies the
-///'requirements' for being a certain type.
-///
-bool IsTriggeringSpin(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 

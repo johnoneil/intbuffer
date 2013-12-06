@@ -2,7 +2,7 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file OverlaySymbol.hpp
+//@file PaylineDataPresent.hpp
 //@date Dec-05-0715PM-2013
 //
 //This file generated via intbuffer tool
@@ -10,41 +10,33 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-#ifndef __WBF_OVERLAYSYMBOL_HPP__
-#define __WBF_OVERLAYSYMBOL_HPP__
+#ifndef __WBF_PAYLINEDATAPRESENT_HPP__
+#define __WBF_PAYLINEDATAPRESENT_HPP__
 
 #include <vector>
 #include <iostream>
-#include "OverlayPosition.hpp"
+#include "Payline.hpp"
 namespace wbf
 {
 
-class OverlaySymbol
+class PaylineDataPresent
 {
 public:
 
   ///=====================================
-  ///@brief member HeaderId
+  ///@brief memberPaylines
   ///=====================================
-  Int32 GetHeaderId(void)const;
-  void SetHeaderId(const Int32 value);
-  ///=====================================
-  ///@brief member OverlaySymbolId
-  ///=====================================
-  Int32 GetOverlaySymbolId(void)const;
-  void SetOverlaySymbolId(const Int32 value);
-  ///=====================================
-  ///@brief member OverlayPositions
-  ///=====================================
-  Int32 OverlayPositionCount(void)const;
-  OverlayPosition& GetOverlayPosition(const Int32 index);
-  void SetOverlayPosition(const Int32 index, const OverlayPosition& value);
+  Int32 PaylineCount(void)const;
+  Payline& GetPayline(const Int32 index);
+  void AddPayline(const Payline& value);
+  void ClearPaylines(void);
+  
 
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static OverlaySymbol Parse(const EDC::IGameEvent& gameEvent);
-  static OverlaySymbol Parse(const EDC::IGameEvent& gameEvent, Int32& index);
+  static PaylineDataPresent Parse(const EDC::IGameEvent& gameEvent);
+  static PaylineDataPresent Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -58,15 +50,13 @@ public:
   Int32  Size(void)const;
 
 private:
-  Int32 m_HeaderId;
-  Int32 m_OverlaySymbolId;
-  OverlayPosition m_OverlayPositions[5];
+  std::vector<Payline> m_Paylines;
 };
 
 
 }//namespace wbf
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, wbf::OverlaySymbol& data);
+std::ostream& operator<<(std::ostream &out, wbf::PaylineDataPresent& data);
 
 #endif

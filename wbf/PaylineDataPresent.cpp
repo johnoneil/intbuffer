@@ -2,47 +2,47 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file OverlayPosition.cpp
+//@file PaylineDataPresent.cpp
 //@date Dec-05-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
 #include "Pch.hpp"
 #include <stdexcept>
-#include "OverlayPosition.hpp"
+#include "PaylineDataPresent.hpp"
 
 using namespace wbf;
 
 
 ///============================================================================
-Int32 OverlayPosition::ReelIndexCount(void)const{return static_cast< Int32 >(m_ReelIndexs.size());};
-Int32 OverlayPosition::GetReelIndex(const Int32 index)const{return m_ReelIndexs.at(index);};
-void OverlayPosition::AddReelIndex(const Int32 value){m_ReelIndexs.push_back(value);};
-void OverlayPosition::ClearReelIndexs(void){m_ReelIndexs.clear();};
+Int32 PaylineDataPresent::PaylineCount(void)const{return static_cast< Int32 >(m_Paylines.size());};
+Payline& PaylineDataPresent::GetPayline(const Int32 index){return m_Paylines.at(index);};
+void PaylineDataPresent::AddPayline(const Payline& value){m_Paylines.push_back(value);};
+void PaylineDataPresent::ClearPaylines(void){m_Paylines.clear();};
 
 //==============================================================================
 //Static method that returns instance of class from game event
 //Reccomend testing game event before using as this may throw
 //==============================================================================
-OverlayPosition OverlayPosition::Parse(const EDC::IGameEvent& gameEvent)
+PaylineDataPresent PaylineDataPresent::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return OverlayPosition::Parse(gameEvent, index);
+  return PaylineDataPresent::Parse(gameEvent, index);
 }
 
 //==============================================================================
 //Static method that returns instance of class from game event starting at index
 //==============================================================================
-OverlayPosition OverlayPosition::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
+PaylineDataPresent PaylineDataPresent::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
-  OverlayPosition returnValue;
+  PaylineDataPresent returnValue;
   {
-    returnValue.m_ReelIndexs.clear();
+    returnValue.m_Paylines.clear();
     const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-     Int32 value = gameEvent.GetParam(index++);
-      returnValue.m_ReelIndexs.push_back(value);
+      Payline value= Payline::Parse(gameEvent, index);
+      returnValue.m_Paylines.push_back(value);
     }
   }
   return returnValue;
@@ -52,7 +52,7 @@ OverlayPosition OverlayPosition::Parse(const EDC::IGameEvent& gameEvent, Int32& 
 //Fill a buffer with data from an instance of this class.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool OverlayPosition::Write(std::vector< Int32 >& array)
+bool PaylineDataPresent::Write(std::vector< Int32 >& array)
 {
   Int32 index = 0;
   return Write(array, index);
@@ -62,7 +62,7 @@ bool OverlayPosition::Write(std::vector< Int32 >& array)
 //Fill a buffer with data from an instance of this class from index N.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool OverlayPosition::Write(std::vector< Int32 >& array, Int32& index)
+bool PaylineDataPresent::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
   if(static_cast<Int32>(array.size())-index<size)
@@ -70,11 +70,11 @@ bool OverlayPosition::Write(std::vector< Int32 >& array, Int32& index)
     return false;//failed to write for lack of room
   }
   {
-    const Int32 count = ReelIndexCount();
+    const Int32 count = PaylineCount();
     array[index++] = count;
     for(Int32 i=0;i<count;++i)
     {
-      array[index++] = GetReelIndex(i);
+      GetPayline(i).Write(array, index);
     }
   }
   return true;
@@ -83,15 +83,15 @@ bool OverlayPosition::Write(std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 // Get the size of this class in 32 bit integers
 //==============================================================================
-Int32 OverlayPosition::Size(void)const
+Int32 PaylineDataPresent::Size(void)const
 {
  Int32 size = 0;
   ++size;//increment once for the number of elements 'header'
   {
-    const Int32 count = ReelIndexCount();
+    const Int32 count = PaylineCount();
     for(Int32 i=0;i<count;++i)
     {
-      ++size;
+      size+=m_Paylines.at(i).Size();
     }
   }
   return size;
@@ -101,11 +101,11 @@ Int32 OverlayPosition::Size(void)const
 //==============================================================================
 //Helper to dump class to std::stream for debugging etc.
 //==============================================================================
-std::ostream& operator<<(std::ostream &out, wbf::OverlayPosition& data)
+std::ostream& operator<<(std::ostream &out, wbf::PaylineDataPresent& data)
 {
-  for(Int32 i=0;i<data.ReelIndexCount();++i)
+  for(Int32 i=0;i<data.PaylineCount();++i)
   {
-    out<<"ReelIndex:"<<i<<":"<<data.GetReelIndex(i)<<std::endl;
+    out<<"Payline:"<<i<<":"<<data.GetPayline(i)<<std::endl;
   }
   return out;
 }

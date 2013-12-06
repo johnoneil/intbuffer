@@ -2,89 +2,89 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file FreeGamesBonus.cpp
-//@date Dec-05-0506PM-2013
+//@file FastFireBonusEvent.cpp
+//@date Dec-05-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
 #include "Pch.hpp"
 #include <stdexcept>
-#include "FreeGamesBonus.hpp"
+#include "FastFireBonusEvent.hpp"
 
 using namespace wbf;
 
-FreeGamesBonus::FreeGamesBonus()
-  :m_ThemeId(2)
+FastFireBonusEvent::FastFireBonusEvent()
+  :m_ThemeId(3)
   ,m_FormatId(1)
-  ,m_NumberOfObjects(1)
+  ,m_NumberOfObjects(3)
   {};
 
 ///============================================================================
-Int32 FreeGamesBonus::GetThemeId(void)const{return m_ThemeId;};
+Int32 FastFireBonusEvent::GetThemeId(void)const{return m_ThemeId;};
 
 ///============================================================================
-Int32 FreeGamesBonus::GetFormatId(void)const{return m_FormatId;};
+Int32 FastFireBonusEvent::GetFormatId(void)const{return m_FormatId;};
 
 ///============================================================================
-Int32 FreeGamesBonus::GetTotalPrize(void)const{return m_TotalPrize;};
-void FreeGamesBonus::SetTotalPrize(const Int32 value){m_TotalPrize=value;};
+Int32 FastFireBonusEvent::GetTotalPrize(void)const{return m_TotalPrize;};
+void FastFireBonusEvent::SetTotalPrize(const Int32 value){m_TotalPrize=value;};
 
 ///============================================================================
-Int32 FreeGamesBonus::GetNumberOfObjects(void)const{return m_NumberOfObjects;};
+Int32 FastFireBonusEvent::GetNumberOfObjects(void)const{return m_NumberOfObjects;};
 
 //==============================================================================
-InitialSpin& FreeGamesBonus::GetInitialSpin(void){return m_InitialSpin;};
-void FreeGamesBonus::SetInitialSpin(const InitialSpin& value){m_InitialSpin=value;};
+InitialSpin& FastFireBonusEvent::GetInitialSpin(void){return m_InitialSpin;};
+void FastFireBonusEvent::SetInitialSpin(const InitialSpin& value){m_InitialSpin=value;};
 
 //==============================================================================
-Overlays& FreeGamesBonus::GetOverlays(void){return m_Overlays;};
-void FreeGamesBonus::SetOverlays(const Overlays& value){m_Overlays=value;};
+Overlays& FastFireBonusEvent::GetOverlays(void){return m_Overlays;};
+void FastFireBonusEvent::SetOverlays(const Overlays& value){m_Overlays=value;};
 
 //==============================================================================
-FreeGameData& FreeGamesBonus::GetFreeGameData(void){return m_FreeGameData;};
-void FreeGamesBonus::SetFreeGameData(const FreeGameData& value){m_FreeGameData=value;};
+FreeGamesData& FastFireBonusEvent::GetFreeGamesData(void){return m_FreeGamesData;};
+void FastFireBonusEvent::SetFreeGamesData(const FreeGamesData& value){m_FreeGamesData=value;};
 
 //==============================================================================
 //Static method that returns instance of class from game event
 //Reccomend testing game event before using as this may throw
 //==============================================================================
-FreeGamesBonus FreeGamesBonus::Parse(const EDC::IGameEvent& gameEvent)
+FastFireBonusEvent FastFireBonusEvent::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return FreeGamesBonus::Parse(gameEvent, index);
+  return FastFireBonusEvent::Parse(gameEvent, index);
 }
 
 //==============================================================================
 //Static method that returns instance of class from game event starting at index
 //==============================================================================
-FreeGamesBonus FreeGamesBonus::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
+FastFireBonusEvent FastFireBonusEvent::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
-  FreeGamesBonus returnValue;
+  FastFireBonusEvent returnValue;
   const Int32 size=gameEvent.GetParam(index++);
   if(gameEvent.GetParamCount()-index+1<size)
   {
     //not enough array for whole class. throw.
-    throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect size.");
+    throw std::runtime_error("FastFireBonusEvent cannot be generated from buffer due to incorrect size.");
   }
   returnValue.m_ThemeId=gameEvent.GetParam(index++);
-  if(returnValue.m_ThemeId!=2)
+  if(returnValue.m_ThemeId!=3)
   {
-    throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_ThemeId");
+    throw std::runtime_error("FastFireBonusEvent cannot be generated from buffer due to incorrect value of m_ThemeId");
   }
   returnValue.m_FormatId=gameEvent.GetParam(index++);
   if(returnValue.m_FormatId!=1)
   {
-    throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_FormatId");
+    throw std::runtime_error("FastFireBonusEvent cannot be generated from buffer due to incorrect value of m_FormatId");
   }
   returnValue.m_TotalPrize=gameEvent.GetParam(index++);
   returnValue.m_NumberOfObjects=gameEvent.GetParam(index++);
-  if(returnValue.m_NumberOfObjects!=1)
+  if(returnValue.m_NumberOfObjects!=3)
   {
-    throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_NumberOfObjects");
+    throw std::runtime_error("FastFireBonusEvent cannot be generated from buffer due to incorrect value of m_NumberOfObjects");
   }
   returnValue.m_InitialSpin = InitialSpin::Parse(gameEvent, index);
   returnValue.m_Overlays = Overlays::Parse(gameEvent, index);
-  returnValue.m_FreeGameData = FreeGameData::Parse(gameEvent, index);
+  returnValue.m_FreeGamesData = FreeGamesData::Parse(gameEvent, index);
   return returnValue;
 }
 
@@ -92,7 +92,7 @@ FreeGamesBonus FreeGamesBonus::Parse(const EDC::IGameEvent& gameEvent, Int32& in
 //Fill a buffer with data from an instance of this class.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool FreeGamesBonus::Write(std::vector< Int32 >& array)
+bool FastFireBonusEvent::Write(std::vector< Int32 >& array)
 {
   Int32 index = 0;
   return Write(array, index);
@@ -102,7 +102,7 @@ bool FreeGamesBonus::Write(std::vector< Int32 >& array)
 //Fill a buffer with data from an instance of this class from index N.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool FreeGamesBonus::Write(std::vector< Int32 >& array, Int32& index)
+bool FastFireBonusEvent::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
   if(static_cast<Int32>(array.size())-index<size)
@@ -116,14 +116,14 @@ bool FreeGamesBonus::Write(std::vector< Int32 >& array, Int32& index)
   array[index++] = m_NumberOfObjects;
   m_InitialSpin.Write(array, index);
   m_Overlays.Write(array, index);
-  m_FreeGameData.Write(array, index);
+  m_FreeGamesData.Write(array, index);
   return true;
 }
 
 //==============================================================================
 // Get the size of this class in 32 bit integers
 //==============================================================================
-Int32 FreeGamesBonus::Size(void)const
+Int32 FastFireBonusEvent::Size(void)const
 {
  Int32 size = 0;
   ++size;//sized class header
@@ -133,18 +133,18 @@ Int32 FreeGamesBonus::Size(void)const
   ++size;//NumberOfObjects
   size+=m_InitialSpin.Size();
   size+=m_Overlays.Size();
-  size+=m_FreeGameData.Size();
+  size+=m_FreeGamesData.Size();
   return size;
 }
 
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsFreeGamesBonus(const EDC::IGameEvent& gameEvent)
+bool wbf::IsFastFireBonusEvent(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    FreeGamesBonus value = FreeGamesBonus::Parse(gameEvent);
+    FastFireBonusEvent value = FastFireBonusEvent::Parse(gameEvent);
   }catch(...)
   {
     return false;
@@ -155,7 +155,7 @@ bool wbf::IsFreeGamesBonus(const EDC::IGameEvent& gameEvent)
 //==============================================================================
 //Helper to dump class to std::stream for debugging etc.
 //==============================================================================
-std::ostream& operator<<(std::ostream &out, wbf::FreeGamesBonus& data)
+std::ostream& operator<<(std::ostream &out, wbf::FastFireBonusEvent& data)
 {
   out<<"ThemeId:"<<data.GetThemeId()<<std::endl;
   out<<"FormatId:"<<data.GetFormatId()<<std::endl;
@@ -163,7 +163,7 @@ std::ostream& operator<<(std::ostream &out, wbf::FreeGamesBonus& data)
   out<<"NumberOfObjects:"<<data.GetNumberOfObjects()<<std::endl;
   out<<"InitialSpin:"<<data.GetInitialSpin()<<std::endl;
   out<<"Overlays:"<<data.GetOverlays()<<std::endl;
-  out<<"FreeGameData:"<<data.GetFreeGameData()<<std::endl;
+  out<<"FreeGamesData:"<<data.GetFreeGamesData()<<std::endl;
   return out;
 }
 

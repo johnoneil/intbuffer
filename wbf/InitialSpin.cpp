@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file InitialSpin.cpp
-//@date Dec-05-0506PM-2013
+//@date Dec-05-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -14,14 +14,14 @@
 using namespace wbf;
 
 InitialSpin::InitialSpin()
-  :m_HeaderId(0)
-  ,m_ThemeId(2)
+  :m_ThemeId(2)
   ,m_FormatId(1)
   ,m_VersionId(3)
   {};
 
 ///============================================================================
 Int32 InitialSpin::GetHeaderId(void)const{return m_HeaderId;};
+void InitialSpin::SetHeaderId(const Int32 value){m_HeaderId=value;};
 
 ///============================================================================
 Int32 InitialSpin::GetThemeId(void)const{return m_ThemeId;};
@@ -65,10 +65,6 @@ InitialSpin InitialSpin::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect size.");
   }
   returnValue.m_HeaderId=gameEvent.GetParam(index++);
-  if(returnValue.m_HeaderId!=0)
-  {
-    throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect value of m_HeaderId");
-  }
   returnValue.m_ThemeId=gameEvent.GetParam(index++);
   if(returnValue.m_ThemeId!=2)
   {

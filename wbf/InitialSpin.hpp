@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file InitialSpin.hpp
-//@date Dec-05-0506PM-2013
+//@date Dec-05-0715PM-2013
 //
 //This file generated via intbuffer tool
 //Search Confluence online for description.
@@ -28,6 +28,7 @@ public:
   ///@brief member HeaderId
   ///=====================================
   Int32 GetHeaderId(void)const;
+  void SetHeaderId(const Int32 value);
   ///=====================================
   ///@brief member ThemeId
   ///=====================================
@@ -72,8 +73,6 @@ public:
   Int32  Size(void)const;
 
 private:
-  //can't make member const as it disabled compiler generated assignment operator
-  //We'll have to settle for disabling the Setter and initializing it 
   Int32 m_HeaderId;
   //can't make member const as it disabled compiler generated assignment operator
   //We'll have to settle for disabling the Setter and initializing it 

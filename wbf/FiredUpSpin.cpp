@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FiredUpSpin.cpp
-//@date Dec-05-0506PM-2013
+//@date Dec-05-0715PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -13,12 +13,10 @@
 
 using namespace wbf;
 
-FiredUpSpin::FiredUpSpin()
-  :m_HeaderId(1)
-  {};
 
 ///============================================================================
 Int32 FiredUpSpin::GetHeaderId(void)const{return m_HeaderId;};
+void FiredUpSpin::SetHeaderId(const Int32 value){m_HeaderId=value;};
 
 ///============================================================================
 Int32 FiredUpSpin::GetSpinPrize(void)const{return m_SpinPrize;};
@@ -66,14 +64,10 @@ void FiredUpSpin::AddModifier(const Modifier& value){m_Modifiers.push_back(value
 void FiredUpSpin::ClearModifiers(void){m_Modifiers.clear();};
 
 ///============================================================================
-Int32 FiredUpSpin::GetPaylineDataPresent(void)const{return m_PaylineDataPresent;};
-void FiredUpSpin::SetPaylineDataPresent(const Int32 value){m_PaylineDataPresent=value;};
-
-///============================================================================
-Int32 FiredUpSpin::PaylineCount(void)const{return static_cast< Int32 >(m_Paylines.size());};
-Payline& FiredUpSpin::GetPayline(const Int32 index){return m_Paylines.at(index);};
-void FiredUpSpin::AddPayline(const Payline& value){m_Paylines.push_back(value);};
-void FiredUpSpin::ClearPaylines(void){m_Paylines.clear();};
+Int32 FiredUpSpin::PaylineDataPresentCount(void)const{return static_cast< Int32 >(m_PaylineDataPresents.size());};
+PaylineDataPresent& FiredUpSpin::GetPaylineDataPresent(const Int32 index){return m_PaylineDataPresents.at(index);};
+void FiredUpSpin::AddPaylineDataPresent(const PaylineDataPresent& value){m_PaylineDataPresents.push_back(value);};
+void FiredUpSpin::ClearPaylineDataPresents(void){m_PaylineDataPresents.clear();};
 
 //==============================================================================
 //Static method that returns instance of class from game event
@@ -92,10 +86,6 @@ FiredUpSpin FiredUpSpin::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   FiredUpSpin returnValue;
   returnValue.m_HeaderId=gameEvent.GetParam(index++);
-  if(returnValue.m_HeaderId!=1)
-  {
-    throw std::runtime_error("FiredUpSpin cannot be generated from buffer due to incorrect value of m_HeaderId");
-  }
   returnValue.m_SpinPrize=gameEvent.GetParam(index++);
   returnValue.m_SpinType=gameEvent.GetParam(index++);
   returnValue.m_FreeGamesAwarded=gameEvent.GetParam(index++);
@@ -118,14 +108,13 @@ FiredUpSpin FiredUpSpin::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
       returnValue.m_Modifiers.push_back(value);
     }
   }
-  returnValue.m_PaylineDataPresent=gameEvent.GetParam(index++);
   {
-    returnValue.m_Paylines.clear();
+    returnValue.m_PaylineDataPresents.clear();
     const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-      Payline value= Payline::Parse(gameEvent, index);
-      returnValue.m_Paylines.push_back(value);
+      PaylineDataPresent value= PaylineDataPresent::Parse(gameEvent, index);
+      returnValue.m_PaylineDataPresents.push_back(value);
     }
   }
   return returnValue;
@@ -173,13 +162,12 @@ bool FiredUpSpin::Write(std::vector< Int32 >& array, Int32& index)
       GetModifier(i).Write(array, index);
     }
   }
-  array[index++] = m_PaylineDataPresent;
   {
-    const Int32 count = PaylineCount();
+    const Int32 count = PaylineDataPresentCount();
     array[index++] = count;
     for(Int32 i=0;i<count;++i)
     {
-      GetPayline(i).Write(array, index);
+      GetPaylineDataPresent(i).Write(array, index);
     }
   }
   return true;
@@ -212,32 +200,17 @@ Int32 FiredUpSpin::Size(void)const
       size+=m_Modifiers.at(i).Size();
     }
   }
-  ++size;//PaylineDataPresent
   ++size;//increment once for the number of elements 'header'
   {
-    const Int32 count = PaylineCount();
+    const Int32 count = PaylineDataPresentCount();
     for(Int32 i=0;i<count;++i)
     {
-      size+=m_Paylines.at(i).Size();
+      size+=m_PaylineDataPresents.at(i).Size();
     }
   }
   return size;
 }
 
-//==============================================================================
-//Helper to test if the contents of a buffer match the pattern for this class
-//==============================================================================
-bool wbf::IsFiredUpSpin(const EDC::IGameEvent& gameEvent)
-{
-  try
-  {
-    FiredUpSpin value = FiredUpSpin::Parse(gameEvent);
-  }catch(...)
-  {
-    return false;
-  }
-  return true;
-};
 
 //==============================================================================
 //Helper to dump class to std::stream for debugging etc.
@@ -258,10 +231,9 @@ std::ostream& operator<<(std::ostream &out, wbf::FiredUpSpin& data)
   {
     out<<"Modifier:"<<i<<":"<<data.GetModifier(i)<<std::endl;
   }
-  out<<"PaylineDataPresent:"<<data.GetPaylineDataPresent()<<std::endl;
-  for(Int32 i=0;i<data.PaylineCount();++i)
+  for(Int32 i=0;i<data.PaylineDataPresentCount();++i)
   {
-    out<<"Payline:"<<i<<":"<<data.GetPayline(i)<<std::endl;
+    out<<"PaylineDataPresent:"<<i<<":"<<data.GetPaylineDataPresent(i)<<std::endl;
   }
   return out;
 }

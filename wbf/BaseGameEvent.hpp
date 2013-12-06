@@ -2,32 +2,28 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file FreeGameData.hpp
-//@date Dec-05-0506PM-2013
+//@file BaseGameEvent.hpp
+//@date Dec-05-0715PM-2013
 //
 //This file generated via intbuffer tool
 //Search Confluence online for description.
 //-----------------------------------------------------------------------------
 #pragma once
 
-#ifndef __WBF_FREEGAMEDATA_HPP__
-#define __WBF_FREEGAMEDATA_HPP__
+#ifndef __WBF_BASEGAMEEVENT_HPP__
+#define __WBF_BASEGAMEEVENT_HPP__
 
 #include <vector>
 #include <iostream>
-#include "FiredUpSpin.hpp"
+#include "Overlays.hpp"
 namespace wbf
 {
 
-class FreeGameData
+class BaseGameEvent
 {
 public:
 
-  FreeGameData();
-  ///=====================================
-  ///@brief member HeaderId
-  ///=====================================
-  Int32 GetHeaderId(void)const;
+  BaseGameEvent();
   ///=====================================
   ///@brief member ThemeId
   ///=====================================
@@ -37,28 +33,26 @@ public:
   ///=====================================
   Int32 GetFormatId(void)const;
   ///=====================================
-  ///@brief member VersionId
-  ///=====================================
-  Int32 GetVersionId(void)const;
-  ///=====================================
   ///@brief member TotalPrize
   ///=====================================
   Int32 GetTotalPrize(void)const;
   void SetTotalPrize(const Int32 value);
   ///=====================================
-  ///@brief memberFiredUpSpins
+  ///@brief member ReelSetId
   ///=====================================
-  Int32 FiredUpSpinCount(void)const;
-  FiredUpSpin& GetFiredUpSpin(const Int32 index);
-  void AddFiredUpSpin(const FiredUpSpin& value);
-  void ClearFiredUpSpins(void);
-  
+  Int32 GetReelSetId(void)const;
+  void SetReelSetId(const Int32 value);
+  ///=====================================
+  ///@brief member Overlays
+  ///=====================================
+  Overlays& GetOverlays(void);
+  void SetOverlays(const Overlays& value);
 
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FreeGameData Parse(const EDC::IGameEvent& gameEvent);
-  static FreeGameData Parse(const EDC::IGameEvent& gameEvent, Int32& index);
+  static BaseGameEvent Parse(const EDC::IGameEvent& gameEvent);
+  static BaseGameEvent Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -74,29 +68,24 @@ public:
 private:
   //can't make member const as it disabled compiler generated assignment operator
   //We'll have to settle for disabling the Setter and initializing it 
-  Int32 m_HeaderId;
-  //can't make member const as it disabled compiler generated assignment operator
-  //We'll have to settle for disabling the Setter and initializing it 
   Int32 m_ThemeId;
   //can't make member const as it disabled compiler generated assignment operator
   //We'll have to settle for disabling the Setter and initializing it 
   Int32 m_FormatId;
-  //can't make member const as it disabled compiler generated assignment operator
-  //We'll have to settle for disabling the Setter and initializing it 
-  Int32 m_VersionId;
   Int32 m_TotalPrize;
-  std::vector<FiredUpSpin> m_FiredUpSpins;
+  Int32 m_ReelSetId;
+  Overlays m_Overlays;
 };
 
 ///
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsFreeGameData(const EDC::IGameEvent& gameEvent);
+bool IsBaseGameEvent(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, wbf::FreeGameData& data);
+std::ostream& operator<<(std::ostream &out, wbf::BaseGameEvent& data);
 
 #endif

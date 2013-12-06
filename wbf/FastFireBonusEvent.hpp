@@ -2,30 +2,30 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file FastFireBonus.hpp
-//@date Dec-05-0506PM-2013
+//@file FastFireBonusEvent.hpp
+//@date Dec-05-0715PM-2013
 //
 //This file generated via intbuffer tool
 //Search Confluence online for description.
 //-----------------------------------------------------------------------------
 #pragma once
 
-#ifndef __WBF_FASTFIREBONUS_HPP__
-#define __WBF_FASTFIREBONUS_HPP__
+#ifndef __WBF_FASTFIREBONUSEVENT_HPP__
+#define __WBF_FASTFIREBONUSEVENT_HPP__
 
 #include <vector>
 #include <iostream>
 #include "InitialSpin.hpp"
 #include "Overlays.hpp"
-#include "FreeGameData.hpp"
+#include "FreeGamesData.hpp"
 namespace wbf
 {
 
-class FastFireBonus
+class FastFireBonusEvent
 {
 public:
 
-  FastFireBonus();
+  FastFireBonusEvent();
   ///=====================================
   ///@brief member ThemeId
   ///=====================================
@@ -54,16 +54,16 @@ public:
   Overlays& GetOverlays(void);
   void SetOverlays(const Overlays& value);
   ///=====================================
-  ///@brief member FreeGameData
+  ///@brief member FreeGamesData
   ///=====================================
-  FreeGameData& GetFreeGameData(void);
-  void SetFreeGameData(const FreeGameData& value);
+  FreeGamesData& GetFreeGamesData(void);
+  void SetFreeGamesData(const FreeGamesData& value);
 
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FastFireBonus Parse(const EDC::IGameEvent& gameEvent);
-  static FastFireBonus Parse(const EDC::IGameEvent& gameEvent, Int32& index);
+  static FastFireBonusEvent Parse(const EDC::IGameEvent& gameEvent);
+  static FastFireBonusEvent Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -89,18 +89,18 @@ private:
   Int32 m_NumberOfObjects;
   InitialSpin m_InitialSpin;
   Overlays m_Overlays;
-  FreeGameData m_FreeGameData;
+  FreeGamesData m_FreeGamesData;
 };
 
 ///
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsFastFireBonus(const EDC::IGameEvent& gameEvent);
+bool IsFastFireBonusEvent(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, wbf::FastFireBonus& data);
+std::ostream& operator<<(std::ostream &out, wbf::FastFireBonusEvent& data);
 
 #endif

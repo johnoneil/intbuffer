@@ -7,7 +7,7 @@ namespace = wbf
 use_radix_gameevents = true
 
 #------------------------------------------------------------------------------
-SECTION BaseGame
+SECTION BaseGameEvent
 	ThemeId 4
 	FormatId 1
 	TotalPrize
@@ -15,24 +15,24 @@ SECTION BaseGame
 	Overlays
 
 #------------------------------------------------------------------------------
-SECTION FreeGamesBonus
+SECTION FreeGamesBonusEvent
 	ThemeId 2
 	FormatId 1
 	TotalPrize
-	NumberOfObjects 1
+	NumberOfObjects 3
 	InitialSpin
 	Overlays
-	FreeGameData
+	FreeGamesData
 
 #------------------------------------------------------------------------------
-SECTION FastFireBonus
-	ThemeId 2
+SECTION FastFireBonusEvent
+	ThemeId 3
 	FormatId 1
 	TotalPrize
-	NumberOfObjects 1
+	NumberOfObjects 3
 	InitialSpin
 	Overlays
-	FreeGameData
+	FreeGamesData
 
 #------------------------------------------------------------------------------
 SECTION Overlays
@@ -55,7 +55,7 @@ OverlayPosition
 
 #------------------------------------------------------------------------------
 SECTION InitialSpin
-	HeaderId 0
+	HeaderId
 	ThemeId 2
 	FormatId 1
 	VersionId 3
@@ -64,7 +64,7 @@ SECTION InitialSpin
 
 #------------------------------------------------------------------------------
 TriggeringSpin
-	HeaderId 0
+	HeaderId
 	SpinPrize
 	SpinType
 	FreeGamesAwarded
@@ -72,7 +72,10 @@ TriggeringSpin
 	SymbolMapperIndex
 	5 ReelStop
 	REPEATED Modifier
-	PaylineDataPresent
+	REPEATED PaylineDataPresent
+
+#------------------------------------------------------------------------------
+PaylineDataPresent
 	REPEATED Payline
 
 #------------------------------------------------------------------------------
@@ -88,8 +91,8 @@ Payline
 	WinId
 
 #------------------------------------------------------------------------------
-SECTION FreeGameData
-	HeaderId 1
+SECTION FreeGamesData
+	HeaderId
 	ThemeId 2
 	FormatId 1
 	VersionId 3
@@ -98,7 +101,7 @@ SECTION FreeGameData
 
 #------------------------------------------------------------------------------
 FiredUpSpin
-	HeaderId 1
+	HeaderId
 	SpinPrize
 	SpinType
 	FreeGamesAwarded
@@ -106,7 +109,6 @@ FiredUpSpin
 	SymbolMapperIndex
 	5 ReelStop
 	REPEATED Modifier
-	PaylineDataPresent
-	REPEATED Payline	
+	REPEATED PaylineDataPresent	
 
 
