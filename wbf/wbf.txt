@@ -22,7 +22,7 @@ SECTION FreeGamesBonus
 	NumberOfObjects 1
 	InitialSpin
 	Overlays
-	FreeGames
+	FreeGameData
 
 #------------------------------------------------------------------------------
 SECTION FastFireBonus
@@ -32,7 +32,7 @@ SECTION FastFireBonus
 	NumberOfObjects 1
 	InitialSpin
 	Overlays
-	FreeGames
+	FreeGameData
 
 #------------------------------------------------------------------------------
 SECTION Overlays
@@ -88,7 +88,7 @@ Payline
 	WinId
 
 #------------------------------------------------------------------------------
-SECTION FreeGames
+SECTION FreeGameData
 	HeaderId 1
 	ThemeId 2
 	FormatId 1

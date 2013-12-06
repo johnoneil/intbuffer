@@ -3,12 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file BaseGame.hpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
-
-typedef int Int32;
-
 #pragma once
 
 #ifndef __WBF_BASEGAME_HPP__
@@ -52,8 +51,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static BaseGame Parse(const std::vector< Int32 >& array);
-  static BaseGame Parse(const std::vector< Int32 >& array, Int32& index);
+  static BaseGame Parse(const EDC::IGameEvent& gameEvent);
+  static BaseGame Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -82,7 +81,7 @@ private:
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsBaseGame(const std::vector< Int32 >& array);
+bool IsBaseGame(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 

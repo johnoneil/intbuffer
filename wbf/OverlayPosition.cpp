@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file OverlayPosition.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "OverlayPosition.hpp"
 
@@ -21,27 +21,27 @@ void OverlayPosition::AddReelIndex(const Int32 value){m_ReelIndexs.push_back(val
 void OverlayPosition::ClearReelIndexs(void){m_ReelIndexs.clear();};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-OverlayPosition OverlayPosition::Parse(const std::vector< Int32 >& array)
+OverlayPosition OverlayPosition::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return OverlayPosition::Parse(array, index);
+  return OverlayPosition::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-OverlayPosition OverlayPosition::Parse(const std::vector< Int32 >& array, Int32& index)
+OverlayPosition OverlayPosition::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   OverlayPosition returnValue;
   {
     returnValue.m_ReelIndexs.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-     Int32 value = array[index++];
+     Int32 value = gameEvent.GetParam(index++);
       returnValue.m_ReelIndexs.push_back(value);
     }
   }
@@ -87,10 +87,12 @@ Int32 OverlayPosition::Size(void)const
 {
  Int32 size = 0;
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = ReelIndexCount();
-  for(Int32 i=0;i<count;++i)
   {
-    ++size;
+    const Int32 count = ReelIndexCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      ++size;
+    }
   }
   return size;
 }

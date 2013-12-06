@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file TriggeringSpin.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "TriggeringSpin.hpp"
 
@@ -76,55 +76,55 @@ void TriggeringSpin::AddPayline(const Payline& value){m_Paylines.push_back(value
 void TriggeringSpin::ClearPaylines(void){m_Paylines.clear();};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-TriggeringSpin TriggeringSpin::Parse(const std::vector< Int32 >& array)
+TriggeringSpin TriggeringSpin::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return TriggeringSpin::Parse(array, index);
+  return TriggeringSpin::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-TriggeringSpin TriggeringSpin::Parse(const std::vector< Int32 >& array, Int32& index)
+TriggeringSpin TriggeringSpin::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   TriggeringSpin returnValue;
-  returnValue.m_HeaderId=array[index++];
+  returnValue.m_HeaderId=gameEvent.GetParam(index++);
   if(returnValue.m_HeaderId!=0)
   {
     throw std::runtime_error("TriggeringSpin cannot be generated from buffer due to incorrect value of m_HeaderId");
   }
-  returnValue.m_SpinPrize=array[index++];
-  returnValue.m_SpinType=array[index++];
-  returnValue.m_FreeGamesAwarded=array[index++];
-  returnValue.m_Multiplier=array[index++];
-  returnValue.m_SymbolMapperIndex=array[index++];
+  returnValue.m_SpinPrize=gameEvent.GetParam(index++);
+  returnValue.m_SpinType=gameEvent.GetParam(index++);
+  returnValue.m_FreeGamesAwarded=gameEvent.GetParam(index++);
+  returnValue.m_Multiplier=gameEvent.GetParam(index++);
+  returnValue.m_SymbolMapperIndex=gameEvent.GetParam(index++);
   {
     const Int32 count = 5;
     for(Int32 i=0;i<count;++i)
     {
-      Int32 value = array[index++];
+      Int32 value = gameEvent.GetParam(index++);
       returnValue.SetReelStop(i, value);
     }
   }
   {
     returnValue.m_Modifiers.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-      Modifier value= Modifier::Parse(array, index);
+      Modifier value= Modifier::Parse(gameEvent, index);
       returnValue.m_Modifiers.push_back(value);
     }
   }
-  returnValue.m_PaylineDataPresent=array[index++];
+  returnValue.m_PaylineDataPresent=gameEvent.GetParam(index++);
   {
     returnValue.m_Paylines.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-      Payline value= Payline::Parse(array, index);
+      Payline value= Payline::Parse(gameEvent, index);
       returnValue.m_Paylines.push_back(value);
     }
   }
@@ -205,17 +205,21 @@ Int32 TriggeringSpin::Size(void)const
     }
   }
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = ModifierCount();
-  for(Int32 i=0;i<count;++i)
   {
-    size+=m_Modifiers.at(i).Size();
+    const Int32 count = ModifierCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      size+=m_Modifiers.at(i).Size();
+    }
   }
   ++size;//PaylineDataPresent
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = PaylineCount();
-  for(Int32 i=0;i<count;++i)
   {
-    size+=m_Paylines.at(i).Size();
+    const Int32 count = PaylineCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      size+=m_Paylines.at(i).Size();
+    }
   }
   return size;
 }
@@ -223,11 +227,11 @@ Int32 TriggeringSpin::Size(void)const
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsTriggeringSpin(const std::vector< Int32 >& array)
+bool wbf::IsTriggeringSpin(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    TriggeringSpin value = TriggeringSpin::Parse(array);
+    TriggeringSpin value = TriggeringSpin::Parse(gameEvent);
   }catch(...)
   {
     return false;

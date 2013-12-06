@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file InitialSpin.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "InitialSpin.hpp"
 
@@ -43,54 +43,54 @@ void InitialSpin::AddTriggeringSpin(const TriggeringSpin& value){m_TriggeringSpi
 void InitialSpin::ClearTriggeringSpins(void){m_TriggeringSpins.clear();};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-InitialSpin InitialSpin::Parse(const std::vector< Int32 >& array)
+InitialSpin InitialSpin::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return InitialSpin::Parse(array, index);
+  return InitialSpin::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-InitialSpin InitialSpin::Parse(const std::vector< Int32 >& array, Int32& index)
+InitialSpin InitialSpin::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   InitialSpin returnValue;
-  const Int32 size=array[index++];
-  if(static_cast<Int32>(array.size())-index+1<size)
+  const Int32 size=gameEvent.GetParam(index++);
+  if(gameEvent.GetParamCount()-index+1<size)
   {
     //not enough array for whole class. throw.
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect size.");
   }
-  returnValue.m_HeaderId=array[index++];
+  returnValue.m_HeaderId=gameEvent.GetParam(index++);
   if(returnValue.m_HeaderId!=0)
   {
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect value of m_HeaderId");
   }
-  returnValue.m_ThemeId=array[index++];
+  returnValue.m_ThemeId=gameEvent.GetParam(index++);
   if(returnValue.m_ThemeId!=2)
   {
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect value of m_ThemeId");
   }
-  returnValue.m_FormatId=array[index++];
+  returnValue.m_FormatId=gameEvent.GetParam(index++);
   if(returnValue.m_FormatId!=1)
   {
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect value of m_FormatId");
   }
-  returnValue.m_VersionId=array[index++];
+  returnValue.m_VersionId=gameEvent.GetParam(index++);
   if(returnValue.m_VersionId!=3)
   {
     throw std::runtime_error("InitialSpin cannot be generated from buffer due to incorrect value of m_VersionId");
   }
-  returnValue.m_TotalPrize=array[index++];
+  returnValue.m_TotalPrize=gameEvent.GetParam(index++);
   {
     returnValue.m_TriggeringSpins.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-      TriggeringSpin value= TriggeringSpin::Parse(array, index);
+      TriggeringSpin value= TriggeringSpin::Parse(gameEvent, index);
       returnValue.m_TriggeringSpins.push_back(value);
     }
   }
@@ -148,10 +148,12 @@ Int32 InitialSpin::Size(void)const
   ++size;//VersionId
   ++size;//TotalPrize
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = TriggeringSpinCount();
-  for(Int32 i=0;i<count;++i)
   {
-    size+=m_TriggeringSpins.at(i).Size();
+    const Int32 count = TriggeringSpinCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      size+=m_TriggeringSpins.at(i).Size();
+    }
   }
   return size;
 }
@@ -159,11 +161,11 @@ Int32 InitialSpin::Size(void)const
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsInitialSpin(const std::vector< Int32 >& array)
+bool wbf::IsInitialSpin(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    InitialSpin value = InitialSpin::Parse(array);
+    InitialSpin value = InitialSpin::Parse(gameEvent);
   }catch(...)
   {
     return false;

@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file Modifier.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "Modifier.hpp"
 
@@ -25,28 +25,28 @@ void Modifier::AddLocation(const Int32 value){m_Locations.push_back(value);};
 void Modifier::ClearLocations(void){m_Locations.clear();};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-Modifier Modifier::Parse(const std::vector< Int32 >& array)
+Modifier Modifier::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return Modifier::Parse(array, index);
+  return Modifier::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-Modifier Modifier::Parse(const std::vector< Int32 >& array, Int32& index)
+Modifier Modifier::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   Modifier returnValue;
-  returnValue.m_SymbolIndex=array[index++];
+  returnValue.m_SymbolIndex=gameEvent.GetParam(index++);
   {
     returnValue.m_Locations.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-     Int32 value = array[index++];
+     Int32 value = gameEvent.GetParam(index++);
       returnValue.m_Locations.push_back(value);
     }
   }
@@ -94,10 +94,12 @@ Int32 Modifier::Size(void)const
  Int32 size = 0;
   ++size;//SymbolIndex
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = LocationCount();
-  for(Int32 i=0;i<count;++i)
   {
-    ++size;
+    const Int32 count = LocationCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      ++size;
+    }
   }
   return size;
 }

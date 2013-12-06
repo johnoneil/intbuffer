@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file BaseGame.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "BaseGame.hpp"
 
@@ -37,40 +37,40 @@ Overlays& BaseGame::GetOverlays(void){return m_Overlays;};
 void BaseGame::SetOverlays(const Overlays& value){m_Overlays=value;};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-BaseGame BaseGame::Parse(const std::vector< Int32 >& array)
+BaseGame BaseGame::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return BaseGame::Parse(array, index);
+  return BaseGame::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-BaseGame BaseGame::Parse(const std::vector< Int32 >& array, Int32& index)
+BaseGame BaseGame::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   BaseGame returnValue;
-  const Int32 size=array[index++];
-  if(static_cast<Int32>(array.size())-index+1<size)
+  const Int32 size=gameEvent.GetParam(index++);
+  if(gameEvent.GetParamCount()-index+1<size)
   {
     //not enough array for whole class. throw.
     throw std::runtime_error("BaseGame cannot be generated from buffer due to incorrect size.");
   }
-  returnValue.m_ThemeId=array[index++];
+  returnValue.m_ThemeId=gameEvent.GetParam(index++);
   if(returnValue.m_ThemeId!=4)
   {
     throw std::runtime_error("BaseGame cannot be generated from buffer due to incorrect value of m_ThemeId");
   }
-  returnValue.m_FormatId=array[index++];
+  returnValue.m_FormatId=gameEvent.GetParam(index++);
   if(returnValue.m_FormatId!=1)
   {
     throw std::runtime_error("BaseGame cannot be generated from buffer due to incorrect value of m_FormatId");
   }
-  returnValue.m_TotalPrize=array[index++];
-  returnValue.m_ReelSetId=array[index++];
-  returnValue.m_Overlays = Overlays::Parse(array, index);
+  returnValue.m_TotalPrize=gameEvent.GetParam(index++);
+  returnValue.m_ReelSetId=gameEvent.GetParam(index++);
+  returnValue.m_Overlays = Overlays::Parse(gameEvent, index);
   return returnValue;
 }
 
@@ -122,11 +122,11 @@ Int32 BaseGame::Size(void)const
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsBaseGame(const std::vector< Int32 >& array)
+bool wbf::IsBaseGame(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    BaseGame value = BaseGame::Parse(array);
+    BaseGame value = BaseGame::Parse(gameEvent);
   }catch(...)
   {
     return false;

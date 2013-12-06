@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGamesBonus.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "FreeGamesBonus.hpp"
 
@@ -41,50 +41,50 @@ Overlays& FreeGamesBonus::GetOverlays(void){return m_Overlays;};
 void FreeGamesBonus::SetOverlays(const Overlays& value){m_Overlays=value;};
 
 //==============================================================================
-FreeGames& FreeGamesBonus::GetFreeGames(void){return m_FreeGames;};
-void FreeGamesBonus::SetFreeGames(const FreeGames& value){m_FreeGames=value;};
+FreeGameData& FreeGamesBonus::GetFreeGameData(void){return m_FreeGameData;};
+void FreeGamesBonus::SetFreeGameData(const FreeGameData& value){m_FreeGameData=value;};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-FreeGamesBonus FreeGamesBonus::Parse(const std::vector< Int32 >& array)
+FreeGamesBonus FreeGamesBonus::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return FreeGamesBonus::Parse(array, index);
+  return FreeGamesBonus::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-FreeGamesBonus FreeGamesBonus::Parse(const std::vector< Int32 >& array, Int32& index)
+FreeGamesBonus FreeGamesBonus::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   FreeGamesBonus returnValue;
-  const Int32 size=array[index++];
-  if(static_cast<Int32>(array.size())-index+1<size)
+  const Int32 size=gameEvent.GetParam(index++);
+  if(gameEvent.GetParamCount()-index+1<size)
   {
     //not enough array for whole class. throw.
     throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect size.");
   }
-  returnValue.m_ThemeId=array[index++];
+  returnValue.m_ThemeId=gameEvent.GetParam(index++);
   if(returnValue.m_ThemeId!=2)
   {
     throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_ThemeId");
   }
-  returnValue.m_FormatId=array[index++];
+  returnValue.m_FormatId=gameEvent.GetParam(index++);
   if(returnValue.m_FormatId!=1)
   {
     throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_FormatId");
   }
-  returnValue.m_TotalPrize=array[index++];
-  returnValue.m_NumberOfObjects=array[index++];
+  returnValue.m_TotalPrize=gameEvent.GetParam(index++);
+  returnValue.m_NumberOfObjects=gameEvent.GetParam(index++);
   if(returnValue.m_NumberOfObjects!=1)
   {
     throw std::runtime_error("FreeGamesBonus cannot be generated from buffer due to incorrect value of m_NumberOfObjects");
   }
-  returnValue.m_InitialSpin = InitialSpin::Parse(array, index);
-  returnValue.m_Overlays = Overlays::Parse(array, index);
-  returnValue.m_FreeGames = FreeGames::Parse(array, index);
+  returnValue.m_InitialSpin = InitialSpin::Parse(gameEvent, index);
+  returnValue.m_Overlays = Overlays::Parse(gameEvent, index);
+  returnValue.m_FreeGameData = FreeGameData::Parse(gameEvent, index);
   return returnValue;
 }
 
@@ -116,7 +116,7 @@ bool FreeGamesBonus::Write(std::vector< Int32 >& array, Int32& index)
   array[index++] = m_NumberOfObjects;
   m_InitialSpin.Write(array, index);
   m_Overlays.Write(array, index);
-  m_FreeGames.Write(array, index);
+  m_FreeGameData.Write(array, index);
   return true;
 }
 
@@ -133,18 +133,18 @@ Int32 FreeGamesBonus::Size(void)const
   ++size;//NumberOfObjects
   size+=m_InitialSpin.Size();
   size+=m_Overlays.Size();
-  size+=m_FreeGames.Size();
+  size+=m_FreeGameData.Size();
   return size;
 }
 
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsFreeGamesBonus(const std::vector< Int32 >& array)
+bool wbf::IsFreeGamesBonus(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    FreeGamesBonus value = FreeGamesBonus::Parse(array);
+    FreeGamesBonus value = FreeGamesBonus::Parse(gameEvent);
   }catch(...)
   {
     return false;
@@ -163,7 +163,7 @@ std::ostream& operator<<(std::ostream &out, wbf::FreeGamesBonus& data)
   out<<"NumberOfObjects:"<<data.GetNumberOfObjects()<<std::endl;
   out<<"InitialSpin:"<<data.GetInitialSpin()<<std::endl;
   out<<"Overlays:"<<data.GetOverlays()<<std::endl;
-  out<<"FreeGames:"<<data.GetFreeGames()<<std::endl;
+  out<<"FreeGameData:"<<data.GetFreeGameData()<<std::endl;
   return out;
 }
 

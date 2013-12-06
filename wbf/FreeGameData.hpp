@@ -2,17 +2,16 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file FreeGames.hpp
-//@date Nov-27-0804PM-2013
+//@file FreeGameData.hpp
+//@date Dec-05-0506PM-2013
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
-
-typedef int Int32;
-
 #pragma once
 
-#ifndef __WBF_FREEGAMES_HPP__
-#define __WBF_FREEGAMES_HPP__
+#ifndef __WBF_FREEGAMEDATA_HPP__
+#define __WBF_FREEGAMEDATA_HPP__
 
 #include <vector>
 #include <iostream>
@@ -20,11 +19,11 @@ typedef int Int32;
 namespace wbf
 {
 
-class FreeGames
+class FreeGameData
 {
 public:
 
-  FreeGames();
+  FreeGameData();
   ///=====================================
   ///@brief member HeaderId
   ///=====================================
@@ -58,8 +57,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FreeGames Parse(const std::vector< Int32 >& array);
-  static FreeGames Parse(const std::vector< Int32 >& array, Int32& index);
+  static FreeGameData Parse(const EDC::IGameEvent& gameEvent);
+  static FreeGameData Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -93,11 +92,11 @@ private:
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsFreeGames(const std::vector< Int32 >& array);
+bool IsFreeGameData(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, wbf::FreeGames& data);
+std::ostream& operator<<(std::ostream &out, wbf::FreeGameData& data);
 
 #endif

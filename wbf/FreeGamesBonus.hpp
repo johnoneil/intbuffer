@@ -3,12 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGamesBonus.hpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
-
-typedef int Int32;
-
 #pragma once
 
 #ifndef __WBF_FREEGAMESBONUS_HPP__
@@ -18,7 +17,7 @@ typedef int Int32;
 #include <iostream>
 #include "InitialSpin.hpp"
 #include "Overlays.hpp"
-#include "FreeGames.hpp"
+#include "FreeGameData.hpp"
 namespace wbf
 {
 
@@ -55,16 +54,16 @@ public:
   Overlays& GetOverlays(void);
   void SetOverlays(const Overlays& value);
   ///=====================================
-  ///@brief member FreeGames
+  ///@brief member FreeGameData
   ///=====================================
-  FreeGames& GetFreeGames(void);
-  void SetFreeGames(const FreeGames& value);
+  FreeGameData& GetFreeGameData(void);
+  void SetFreeGameData(const FreeGameData& value);
 
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static FreeGamesBonus Parse(const std::vector< Int32 >& array);
-  static FreeGamesBonus Parse(const std::vector< Int32 >& array, Int32& index);
+  static FreeGamesBonus Parse(const EDC::IGameEvent& gameEvent);
+  static FreeGamesBonus Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -90,14 +89,14 @@ private:
   Int32 m_NumberOfObjects;
   InitialSpin m_InitialSpin;
   Overlays m_Overlays;
-  FreeGames m_FreeGames;
+  FreeGameData m_FreeGameData;
 };
 
 ///
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsFreeGamesBonus(const std::vector< Int32 >& array);
+bool IsFreeGamesBonus(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 

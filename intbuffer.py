@@ -137,8 +137,13 @@ def render_from_templates(code):
   global settings
   absolute_path=os.path.abspath(__file__)
   current_directory=os.path.dirname(absolute_path)
-  hpp_template = Template(filename=os.path.join(current_directory,'template.hpp'))
-  cpp_template = Template(filename=os.path.join(current_directory,'template.cpp'))
+  template_hpp_filename = 'template.hpp'
+  template_cpp_filename = 'template.cpp'
+  if settings['use_radix_gameevents']:
+    template_hpp_filename = 'ROCKET_template.hpp'
+    template_cpp_filename = 'ROCKET_template.cpp'
+  hpp_template = Template(filename=os.path.join(current_directory, template_hpp_filename))
+  cpp_template = Template(filename=os.path.join(current_directory, template_cpp_filename))
   for top_level_class in code:
     filename=top_level_class._name
     mydata={'type':top_level_class,

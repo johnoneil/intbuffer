@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file Payline.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "Payline.hpp"
 
@@ -31,25 +31,25 @@ Int32 Payline::GetWinId(void)const{return m_WinId;};
 void Payline::SetWinId(const Int32 value){m_WinId=value;};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-Payline Payline::Parse(const std::vector< Int32 >& array)
+Payline Payline::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return Payline::Parse(array, index);
+  return Payline::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-Payline Payline::Parse(const std::vector< Int32 >& array, Int32& index)
+Payline Payline::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   Payline returnValue;
-  returnValue.m_Index=array[index++];
-  returnValue.m_Mask=array[index++];
-  returnValue.m_WinAmount=array[index++];
-  returnValue.m_WinId=array[index++];
+  returnValue.m_Index=gameEvent.GetParam(index++);
+  returnValue.m_Mask=gameEvent.GetParam(index++);
+  returnValue.m_WinAmount=gameEvent.GetParam(index++);
+  returnValue.m_WinId=gameEvent.GetParam(index++);
   return returnValue;
 }
 

@@ -3,11 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file OverlaySymbol.cpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
 #include "OverlaySymbol.hpp"
 
@@ -24,11 +24,11 @@ void OverlaySymbol::SetOverlaySymbolId(const Int32 value){m_OverlaySymbolId=valu
 
 //==============================================================================
 Int32 OverlaySymbol::OverlayPositionCount(void)const{return 5;};
-OverlayPosition& OverlaySymbol::GetOverlayPosition(const Int32 index)const
+OverlayPosition& OverlaySymbol::GetOverlayPosition(const Int32 index)
 {
   if(index<0||index>=OverlayPositionCount())
   {
-    return -1;//there's a chance -1 is not adequate. but I don't want to throw.
+    return m_OverlayPositions[0];//don't want to throw.
   }
   return m_OverlayPositions[index];
 }
@@ -42,28 +42,28 @@ void OverlaySymbol::SetOverlayPosition(const Int32 index, const OverlayPosition&
 }
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-OverlaySymbol OverlaySymbol::Parse(const std::vector< Int32 >& array)
+OverlaySymbol OverlaySymbol::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return OverlaySymbol::Parse(array, index);
+  return OverlaySymbol::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-OverlaySymbol OverlaySymbol::Parse(const std::vector< Int32 >& array, Int32& index)
+OverlaySymbol OverlaySymbol::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
   OverlaySymbol returnValue;
-  returnValue.m_HeaderId=array[index++];
-  returnValue.m_OverlaySymbolId=array[index++];
+  returnValue.m_HeaderId=gameEvent.GetParam(index++);
+  returnValue.m_OverlaySymbolId=gameEvent.GetParam(index++);
   {
     const Int32 count = 5;
     for(Int32 i=0;i<count;++i)
     {
-      OverlayPosition value= OverlayPosition::Parse(array, index);
+      OverlayPosition value= OverlayPosition::Parse(gameEvent, index);
       returnValue.SetOverlayPosition(i, value);
     }
   }
@@ -115,7 +115,7 @@ Int32 OverlaySymbol::Size(void)const
     const Int32 count = OverlayPositionCount();
     for(Int32 i=0;i<count;++i)
     {
-      size+=m_OverlayPositions.at(i).Size();
+      size+=m_OverlayPositions[i].Size();
     }
   }
   return size;

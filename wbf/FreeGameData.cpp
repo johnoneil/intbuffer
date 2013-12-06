@@ -2,18 +2,18 @@
 // vim: set ts=2 expandtab:
 //-----------------------------------------------------------------------------
 //
-//@file FreeGames.cpp
-//@date Nov-27-0804PM-2013
+//@file FreeGameData.cpp
+//@date Dec-05-0506PM-2013
 //
 //-----------------------------------------------------------------------------
 
-//#include "Pch.hpp"
+#include "Pch.hpp"
 #include <stdexcept>
-#include "FreeGames.hpp"
+#include "FreeGameData.hpp"
 
 using namespace wbf;
 
-FreeGames::FreeGames()
+FreeGameData::FreeGameData()
   :m_HeaderId(1)
   ,m_ThemeId(2)
   ,m_FormatId(1)
@@ -21,76 +21,76 @@ FreeGames::FreeGames()
   {};
 
 ///============================================================================
-Int32 FreeGames::GetHeaderId(void)const{return m_HeaderId;};
+Int32 FreeGameData::GetHeaderId(void)const{return m_HeaderId;};
 
 ///============================================================================
-Int32 FreeGames::GetThemeId(void)const{return m_ThemeId;};
+Int32 FreeGameData::GetThemeId(void)const{return m_ThemeId;};
 
 ///============================================================================
-Int32 FreeGames::GetFormatId(void)const{return m_FormatId;};
+Int32 FreeGameData::GetFormatId(void)const{return m_FormatId;};
 
 ///============================================================================
-Int32 FreeGames::GetVersionId(void)const{return m_VersionId;};
+Int32 FreeGameData::GetVersionId(void)const{return m_VersionId;};
 
 ///============================================================================
-Int32 FreeGames::GetTotalPrize(void)const{return m_TotalPrize;};
-void FreeGames::SetTotalPrize(const Int32 value){m_TotalPrize=value;};
+Int32 FreeGameData::GetTotalPrize(void)const{return m_TotalPrize;};
+void FreeGameData::SetTotalPrize(const Int32 value){m_TotalPrize=value;};
 
 ///============================================================================
-Int32 FreeGames::FiredUpSpinCount(void)const{return static_cast< Int32 >(m_FiredUpSpins.size());};
-FiredUpSpin& FreeGames::GetFiredUpSpin(const Int32 index){return m_FiredUpSpins.at(index);};
-void FreeGames::AddFiredUpSpin(const FiredUpSpin& value){m_FiredUpSpins.push_back(value);};
-void FreeGames::ClearFiredUpSpins(void){m_FiredUpSpins.clear();};
+Int32 FreeGameData::FiredUpSpinCount(void)const{return static_cast< Int32 >(m_FiredUpSpins.size());};
+FiredUpSpin& FreeGameData::GetFiredUpSpin(const Int32 index){return m_FiredUpSpins.at(index);};
+void FreeGameData::AddFiredUpSpin(const FiredUpSpin& value){m_FiredUpSpins.push_back(value);};
+void FreeGameData::ClearFiredUpSpins(void){m_FiredUpSpins.clear();};
 
 //==============================================================================
-//Static method that returns instance of class from buffer
-//Reccomend testing buffer before using as this may throw
+//Static method that returns instance of class from game event
+//Reccomend testing game event before using as this may throw
 //==============================================================================
-FreeGames FreeGames::Parse(const std::vector< Int32 >& array)
+FreeGameData FreeGameData::Parse(const EDC::IGameEvent& gameEvent)
 {
   Int32 index = 0;
-  return FreeGames::Parse(array, index);
+  return FreeGameData::Parse(gameEvent, index);
 }
 
 //==============================================================================
-//Static method that returns instance of class from array starting at index
+//Static method that returns instance of class from game event starting at index
 //==============================================================================
-FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
+FreeGameData FreeGameData::Parse(const EDC::IGameEvent& gameEvent, Int32& index)
 {
-  FreeGames returnValue;
-  const Int32 size=array[index++];
-  if(static_cast<Int32>(array.size())-index+1<size)
+  FreeGameData returnValue;
+  const Int32 size=gameEvent.GetParam(index++);
+  if(gameEvent.GetParamCount()-index+1<size)
   {
     //not enough array for whole class. throw.
-    throw std::runtime_error("FreeGames cannot be generated from buffer due to incorrect size.");
+    throw std::runtime_error("FreeGameData cannot be generated from buffer due to incorrect size.");
   }
-  returnValue.m_HeaderId=array[index++];
+  returnValue.m_HeaderId=gameEvent.GetParam(index++);
   if(returnValue.m_HeaderId!=1)
   {
-    throw std::runtime_error("FreeGames cannot be generated from buffer due to incorrect value of m_HeaderId");
+    throw std::runtime_error("FreeGameData cannot be generated from buffer due to incorrect value of m_HeaderId");
   }
-  returnValue.m_ThemeId=array[index++];
+  returnValue.m_ThemeId=gameEvent.GetParam(index++);
   if(returnValue.m_ThemeId!=2)
   {
-    throw std::runtime_error("FreeGames cannot be generated from buffer due to incorrect value of m_ThemeId");
+    throw std::runtime_error("FreeGameData cannot be generated from buffer due to incorrect value of m_ThemeId");
   }
-  returnValue.m_FormatId=array[index++];
+  returnValue.m_FormatId=gameEvent.GetParam(index++);
   if(returnValue.m_FormatId!=1)
   {
-    throw std::runtime_error("FreeGames cannot be generated from buffer due to incorrect value of m_FormatId");
+    throw std::runtime_error("FreeGameData cannot be generated from buffer due to incorrect value of m_FormatId");
   }
-  returnValue.m_VersionId=array[index++];
+  returnValue.m_VersionId=gameEvent.GetParam(index++);
   if(returnValue.m_VersionId!=3)
   {
-    throw std::runtime_error("FreeGames cannot be generated from buffer due to incorrect value of m_VersionId");
+    throw std::runtime_error("FreeGameData cannot be generated from buffer due to incorrect value of m_VersionId");
   }
-  returnValue.m_TotalPrize=array[index++];
+  returnValue.m_TotalPrize=gameEvent.GetParam(index++);
   {
     returnValue.m_FiredUpSpins.clear();
-    const Int32 count = array[index++];
+    const Int32 count = gameEvent.GetParam(index++);
     for(Int32 i=0;i<count;++i)
     {
-      FiredUpSpin value= FiredUpSpin::Parse(array, index);
+      FiredUpSpin value= FiredUpSpin::Parse(gameEvent, index);
       returnValue.m_FiredUpSpins.push_back(value);
     }
   }
@@ -101,7 +101,7 @@ FreeGames FreeGames::Parse(const std::vector< Int32 >& array, Int32& index)
 //Fill a buffer with data from an instance of this class.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool FreeGames::Write(std::vector< Int32 >& array)
+bool FreeGameData::Write(std::vector< Int32 >& array)
 {
   Int32 index = 0;
   return Write(array, index);
@@ -111,7 +111,7 @@ bool FreeGames::Write(std::vector< Int32 >& array)
 //Fill a buffer with data from an instance of this class from index N.
 //Returns: false if there is not enough room to write data.
 //==============================================================================
-bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
+bool FreeGameData::Write(std::vector< Int32 >& array, Int32& index)
 {
   const Int32 size = Size();
   if(static_cast<Int32>(array.size())-index<size)
@@ -138,7 +138,7 @@ bool FreeGames::Write(std::vector< Int32 >& array, Int32& index)
 //==============================================================================
 // Get the size of this class in 32 bit integers
 //==============================================================================
-Int32 FreeGames::Size(void)const
+Int32 FreeGameData::Size(void)const
 {
  Int32 size = 0;
   ++size;//sized class header
@@ -148,10 +148,12 @@ Int32 FreeGames::Size(void)const
   ++size;//VersionId
   ++size;//TotalPrize
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = FiredUpSpinCount();
-  for(Int32 i=0;i<count;++i)
   {
-    size+=m_FiredUpSpins.at(i).Size();
+    const Int32 count = FiredUpSpinCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      size+=m_FiredUpSpins.at(i).Size();
+    }
   }
   return size;
 }
@@ -159,11 +161,11 @@ Int32 FreeGames::Size(void)const
 //==============================================================================
 //Helper to test if the contents of a buffer match the pattern for this class
 //==============================================================================
-bool wbf::IsFreeGames(const std::vector< Int32 >& array)
+bool wbf::IsFreeGameData(const EDC::IGameEvent& gameEvent)
 {
   try
   {
-    FreeGames value = FreeGames::Parse(array);
+    FreeGameData value = FreeGameData::Parse(gameEvent);
   }catch(...)
   {
     return false;
@@ -174,7 +176,7 @@ bool wbf::IsFreeGames(const std::vector< Int32 >& array)
 //==============================================================================
 //Helper to dump class to std::stream for debugging etc.
 //==============================================================================
-std::ostream& operator<<(std::ostream &out, wbf::FreeGames& data)
+std::ostream& operator<<(std::ostream &out, wbf::FreeGameData& data)
 {
   out<<"HeaderId:"<<data.GetHeaderId()<<std::endl;
   out<<"ThemeId:"<<data.GetThemeId()<<std::endl;

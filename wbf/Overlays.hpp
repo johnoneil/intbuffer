@@ -3,12 +3,11 @@
 //-----------------------------------------------------------------------------
 //
 //@file Overlays.hpp
-//@date Nov-27-0804PM-2013
+//@date Dec-05-0506PM-2013
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
-
-typedef int Int32;
-
 #pragma once
 
 #ifndef __WBF_OVERLAYS_HPP__
@@ -59,8 +58,8 @@ public:
   ///=====================================
   ///@brief Fill structure from integer array
   ///=====================================
-  static Overlays Parse(const std::vector< Int32 >& array);
-  static Overlays Parse(const std::vector< Int32 >& array, Int32& index);
+  static Overlays Parse(const EDC::IGameEvent& gameEvent);
+  static Overlays Parse(const EDC::IGameEvent& gameEvent, Int32& index);
 
   ///=====================================
   ///@brief write class data to integer array
@@ -92,7 +91,7 @@ private:
 ///@brief Helper to see if a given buffer satisfies the
 ///'requirements' for being a certain type.
 ///
-bool IsOverlays(const std::vector< Int32 >& array);
+bool IsOverlays(const EDC::IGameEvent& gameEvent);
 
 }//namespace wbf
 
