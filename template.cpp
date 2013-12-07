@@ -75,11 +75,11 @@ void ${type._name}::Set${child._element._name}(const Int32 index, const Int32 va
   m_${child._element._name}s[index] = value;
 }
   % else:
-${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index)const
+${child._element._name}& ${type._name}::Get${child._element._name}(const Int32 index)
 {
   if(index<0||index>=${child._element._name}Count())
   {
-    return -1;//there's a chance -1 is not adequate. but I don't want to throw.
+    return m_${child._element._name}s[0];//don't want to throw.
   }
   return m_${child._element._name}s[index];
 }
@@ -240,14 +240,16 @@ Int32 ${type._name}::Size(void)const
   ++size;//${child._name}
   % elif child.__class__.__name__ == 'Repeated':
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = ${child._element._name}Count();
-  for(Int32 i=0;i<count;++i)
   {
-    % if child._element.__class__.__name__ == 'Integer':
-    ++size;
-    % else:
-    size+=m_${child._element._name}s.at(i).Size();
-    %endif
+    const Int32 count = ${child._element._name}Count();
+    for(Int32 i=0;i<count;++i)
+    {
+      % if child._element.__class__.__name__ == 'Integer':
+      ++size;
+      % else:
+      size+=m_${child._element._name}s.at(i).Size();
+      %endif
+    }
   }
   % elif child.__class__.__name__ == 'Set':
   {
@@ -257,7 +259,7 @@ Int32 ${type._name}::Size(void)const
       % if child._element.__class__.__name__ == 'Integer':
       ++size;
       % else:
-      size+=m_${child._element._name}s.at(i).Size();
+      size+=m_${child._element._name}s[i].Size();
       %endif
     }
   }

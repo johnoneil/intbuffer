@@ -1,23 +1,25 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file FreeGames.hpp
-///@date Nov-26-0848PM-2013
-///
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//
+//@file FreeGames.hpp
+//@date Dec-07-1215PM-2013
+//
+//This file generated via intbuffer tool
+//Search Confluence online for description.
+//-----------------------------------------------------------------------------
 
 typedef int Int32;
 
 #pragma once
 
-#ifndef __INTBUFFER_FREEGAMES_HPP__
-#define __INTBUFFER_FREEGAMES_HPP__
+#ifndef __FREEGAMESBONUS_FREEGAMES_HPP__
+#define __FREEGAMESBONUS_FREEGAMES_HPP__
 
 #include <vector>
 #include <iostream>
 #include "Spin.hpp"
-namespace IntBuffer
+namespace FreeGamesBonus
 {
 
 class FreeGames
@@ -26,20 +28,20 @@ public:
 
   FreeGames();
   ///=====================================
-  ///@ThemeId
+  ///@brief member ThemeId
   ///=====================================
   Int32 GetThemeId(void)const;
   ///=====================================
-  ///@VersionId
+  ///@brief member VersionId
   ///=====================================
   Int32 GetVersionId(void)const;
   ///=====================================
-  ///@Win
+  ///@brief member Win
   ///=====================================
   Int32 GetWin(void)const;
   void SetWin(const Int32 value);
   ///=====================================
-  ///@Spins
+  ///@brief memberSpins
   ///=====================================
   Int32 SpinCount(void)const;
   Spin& GetSpin(const Int32 index);
@@ -81,9 +83,9 @@ private:
 ///
 bool IsFreeGames(const std::vector< Int32 >& array);
 
-}//namespace IntBuffer
+}//namespace FreeGamesBonus
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGames& data);
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGames& data);
 
 #endif

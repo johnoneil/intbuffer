@@ -8,6 +8,8 @@ import datetime
 mydate = datetime.datetime.now().strftime('%b-%d-%I%M%p-%G')
 %>//@date ${mydate}
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
 
 typedef int Int32;
@@ -126,7 +128,7 @@ private:
      % if child._element.__class__.__name__ == 'Integer':
   Int32 m_${child._element._name}s[${child._count}];
      % else:
-  Int32 m_${child._element._name}s[${child._count}];
+  ${child._element._name} m_${child._element._name}s[${child._count}];
      % endif
 	% else:
   ${child._name} m_${child._name};

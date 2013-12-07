@@ -3,8 +3,10 @@
 //-----------------------------------------------------------------------------
 //
 //@file Spin.hpp
-//@date Nov-27-0723PM-2013
+//@date Dec-07-1213PM-2013
 //
+//This file generated via intbuffer tool
+//Search Confluence online for description.
 //-----------------------------------------------------------------------------
 
 typedef int Int32;

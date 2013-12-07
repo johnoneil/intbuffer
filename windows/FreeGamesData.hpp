@@ -1,23 +1,25 @@
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // vim: set ts=2 expandtab:
-///----------------------------------------------------------------------------
-///
-///@file FreeGamesData.hpp
-///@date Nov-26-0848PM-2013
-///
-///----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+//
+//@file FreeGamesData.hpp
+//@date Dec-07-1215PM-2013
+//
+//This file generated via intbuffer tool
+//Search Confluence online for description.
+//-----------------------------------------------------------------------------
 
 typedef int Int32;
 
 #pragma once
 
-#ifndef __INTBUFFER_FREEGAMESDATA_HPP__
-#define __INTBUFFER_FREEGAMESDATA_HPP__
+#ifndef __FREEGAMESBONUS_FREEGAMESDATA_HPP__
+#define __FREEGAMESBONUS_FREEGAMESDATA_HPP__
 
 #include <vector>
 #include <iostream>
 #include "FreeGames.hpp"
-namespace IntBuffer
+namespace FreeGamesBonus
 {
 
 class FreeGamesData
@@ -26,20 +28,20 @@ public:
 
   FreeGamesData();
   ///=====================================
-  ///@ThemeId
+  ///@brief member ThemeId
   ///=====================================
   Int32 GetThemeId(void)const;
   ///=====================================
-  ///@VersionId
+  ///@brief member VersionId
   ///=====================================
   Int32 GetVersionId(void)const;
   ///=====================================
-  ///@Win
+  ///@brief member Win
   ///=====================================
   Int32 GetWin(void)const;
   void SetWin(const Int32 value);
   ///=====================================
-  ///FreeGames
+  ///@brief member FreeGames
   ///=====================================
   FreeGames& GetFreeGames(void);
   void SetFreeGames(const FreeGames& value);
@@ -78,9 +80,9 @@ private:
 ///
 bool IsFreeGamesData(const std::vector< Int32 >& array);
 
-}//namespace IntBuffer
+}//namespace FreeGamesBonus
 
 //os operator to help dump class to std out
-std::ostream& operator<<(std::ostream &out, IntBuffer::FreeGamesData& data);
+std::ostream& operator<<(std::ostream &out, FreeGamesBonus::FreeGamesData& data);
 
 #endif

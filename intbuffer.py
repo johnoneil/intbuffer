@@ -139,7 +139,7 @@ def render_from_templates(code):
   current_directory=os.path.dirname(absolute_path)
   template_hpp_filename = 'template.hpp'
   template_cpp_filename = 'template.cpp'
-  if settings['use_radix_gameevents']:
+  if settings['use_radix_gameevents'].lower() == 'true':
     template_hpp_filename = 'ROCKET_template.hpp'
     template_cpp_filename = 'ROCKET_template.cpp'
   hpp_template = Template(filename=os.path.join(current_directory, template_hpp_filename))

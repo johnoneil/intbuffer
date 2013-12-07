@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 //
 //@file FreeGames.cpp
-//@date Nov-27-0723PM-2013
+//@date Dec-07-1213PM-2013
 //
 //-----------------------------------------------------------------------------
 
@@ -126,10 +126,12 @@ Int32 FreeGames::Size(void)const
   ++size;//VersionId
   ++size;//Win
   ++size;//increment once for the number of elements 'header'
-  const Int32 count = SpinCount();
-  for(Int32 i=0;i<count;++i)
   {
-    size+=m_Spins.at(i).Size();
+    const Int32 count = SpinCount();
+    for(Int32 i=0;i<count;++i)
+    {
+      size+=m_Spins.at(i).Size();
+    }
   }
   return size;
 }
