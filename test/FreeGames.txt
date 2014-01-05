@@ -6,7 +6,7 @@
 
 #settings
 namespace = FreeGamesBonus
-use_radix_gameevents = true
+use_radix_gameevents = false
 
 #------------------------------------------------------------------------------
 SECTION FreeGamesData
